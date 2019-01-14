@@ -43,7 +43,7 @@
   "extra": {
     "laravel": {
       "providers": [
-        "AshPowell\\APAnalytics\\ServiceProvider"
+        "AshPowell\\APAnalytics\\APAnalyticsServiceProvider"
       ],
       "aliases": {
         "Analytics": "AshPowell\\APAnalytics\\Facades"

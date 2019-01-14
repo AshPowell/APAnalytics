@@ -26,7 +26,7 @@ auto discovery feature.**
 
 Add service provider to `config/app.php` in `providers` section
 ```php
-AshPowell\APAnalytics\ServiceProvider::class,
+AshPowell\APAnalytics\APAnalyticsServiceProvider::class,
 ```
 
 ### Register Facade
@@ -39,13 +39,13 @@ AshPowell\APAnalytics\Facades\APAnalytics::class,
 ### Publish Configuration File
 
 ```bash
-php artisan vendor:publish --provider="AshPowell\APAnalytics\ServiceProvider" --tag="config"
+php artisan vendor:publish --provider="AshPowell\APAnalytics\APAnalyticsServiceProvider" --tag="config"
 ```
 
 ### Publish VueJS Analytic Chart Thing... Requires Vue-ApexCharts
 
 ```bash
-php artisan vendor:publish --provider="AshPowell\APAnalytics\ServiceProvider" --tag="views"
+php artisan vendor:publish --provider="AshPowell\APAnalytics\APAnalyticsServiceProvider" --tag="views"
 ```
 
 ## Usage

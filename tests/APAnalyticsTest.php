@@ -3,14 +3,14 @@
 namespace AshPowell\APAnalytics\Tests;
 
 use AshPowell\APAnalytics\Facades\APAnalytics;
-use AshPowell\APAnalytics\ServiceProvider;
+use AshPowell\APAnalytics\APAnalyticsServiceProvider;
 use Orchestra\Testbench\TestCase;
 
 class APAnalyticsTest extends TestCase
 {
     protected function getPackageProviders($app)
     {
-        return [ServiceProvider::class];
+        return [APAnalyticsServiceProvider::class];
     }
 
     protected function getPackageAliases($app)
