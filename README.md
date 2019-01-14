@@ -10,7 +10,7 @@
 [![Packagist](https://poser.pugx.org/ash-powell/apanalytics/d/total.svg)](https://packagist.org/packages/ash-powell/apanalytics)
 [![Packagist](https://img.shields.io/packagist/l/ash-powell/apanalytics.svg)](https://packagist.org/packages/ash-powell/apanalytics)
 
-Package description: Simple Logging and Viewing for Analytics using MongoDB
+Simple Logging and Viewing for Analytics using MongoDB - Very rough first draft
 
 ## Installation
 
