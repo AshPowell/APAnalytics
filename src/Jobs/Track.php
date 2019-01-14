@@ -18,6 +18,7 @@ class Track implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    public $connection;
     public $collection;
     public $items;
     public $userId;
@@ -36,6 +37,7 @@ class Track implements ShouldQueue
     {
         $this->queue = 'analytics';
 
+        $this->connection = config('apanalytics.db_connection', 'mongodb');
         $this->collection = $collection;
         $this->items      = $items;
         $this->userId     = $userId;
@@ -44,6 +46,7 @@ class Track implements ShouldQueue
 
     public function handle()
     {
+        $connection = $this->connection;
         $collection = $this->collection;
         $items      = $this->items;
         $userId     = $this->userId;
@@ -57,12 +60,12 @@ class Track implements ShouldQueue
             $postEvent  = in_array($collection, config('apanalytics.format_collections'));
             $event      = $postEvent ? [] : $this->addExtraEventData($items, $userId, $params);
 
-            //try {
-            if ($postEvent) {
-                foreach ($items as $object) {
-                    $basename = strtolower(class_basename($object));
+            try {
+                if ($postEvent) {
+                    foreach ($items as $object) {
+                        $basename = strtolower(class_basename($object));
 
-                    $data = [
+                        $data = [
                             $basename => [
                                 'id'   => $object->id ?? null,
                                 'type' => $object->type ?? null
@@ -72,19 +75,19 @@ class Track implements ShouldQueue
                             ]
                         ];
 
-                    // Add Extra Stuff
-                    $data = $this->addExtraEventData($data, $userId, $params);
+                        // Add Extra Stuff
+                        $data = $this->addExtraEventData($data, $userId, $params);
 
-                    $event[] = $data;
+                        $event[] = $data;
+                    }
                 }
-            }
 
-            return DB::connection('mongodb')
+                return DB::connection($connection)
                     ->collection($collection)
                     ->insert($event);
-            //} catch (\Exception $e) {
-            //    Log::error('Error Logging Event', ['error' => $e->getMessage()]);
-            //}
+            } catch (\Exception $e) {
+                Log::error('Error Logging Event', ['error' => $e->getMessage()]);
+            }
         }
     }
 
