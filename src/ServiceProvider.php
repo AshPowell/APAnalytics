@@ -14,7 +14,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
         $this->publishes([
             __DIR__.'/resources/js/components' => resource_path('js/components'),
-        ]);
+        ], 'views');
 
         $this->loadRoutesFrom(__DIR__.'/routes.php');
     }

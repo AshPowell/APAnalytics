@@ -10,7 +10,7 @@
 [![Packagist](https://poser.pugx.org/ash-powell/apanalytics/d/total.svg)](https://packagist.org/packages/ash-powell/apanalytics)
 [![Packagist](https://img.shields.io/packagist/l/ash-powell/apanalytics.svg)](https://packagist.org/packages/ash-powell/apanalytics)
 
-Package description: CHANGE ME
+Package description: Simple Logging and Viewing for Analytics using MongoDB
 
 ## Installation
 
@@ -42,9 +42,39 @@ AshPowell\APAnalytics\Facades\APAnalytics::class,
 php artisan vendor:publish --provider="AshPowell\APAnalytics\ServiceProvider" --tag="config"
 ```
 
+### Publish VueJS Analytic Chart Thing... Requires Vue-ApexCharts
+
+```bash
+php artisan vendor:publish --provider="AshPowell\APAnalytics\ServiceProvider" --tag="views"
+```
+
 ## Usage
 
-CHANGE ME
+# Extend Analytic Models From Jessenger instead of Elequent
+```php
+use Jenssegers\Mongodb\Eloquent\Model;
+
+class ViewAnalytic extends Model;
+```
+
+# Use Custom Trait to set correct db etc
+```php
+use Jenssegers\Mongodb\Eloquent\Model;
+use AshPowell\APAnalytics\Traits\isAnalytic;
+
+class ViewAnalytic extends Model
+{
+    use isAnalytic;
+```
+
+# To Log events simply use the built in helper as follows:
+```php
+trackEvent('collection', $items, $userId = null, $params = []),
+```
+- Collection will get plauralised
+- Items can be models, collections, or custom (see config for model formatting)
+- UserId is who performed the action, nullable, default is logged user
+- Params is an array of extra config, nullable also
 
 ## Security
 
@@ -56,5 +86,5 @@ instead of using the issue tracker.
 - [Ash Powell](https://github.com/ash-powell/apanalytics)
 - [All contributors](https://github.com/ash-powell/apanalytics/graphs/contributors)
 
-This package is bootstrapped with the help of
-[melihovv/laravel-package-generator](https://github.com/melihovv/laravel-package-generator).
+This package relies heavily on
+[jenssegers/laravel-mongodb](https://github.com/jenssegers/laravel-mongodb).
