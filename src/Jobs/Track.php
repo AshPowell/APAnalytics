@@ -18,7 +18,7 @@ class Track implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public $connection;
+    public $mongodb_connection;
     public $collection;
     public $items;
     public $userId;
@@ -37,16 +37,16 @@ class Track implements ShouldQueue
     {
         $this->queue = 'analytics';
 
-        $this->connection = config('apanalytics.db_connection', 'mongodb');
-        $this->collection = $collection;
-        $this->items      = $items;
-        $this->userId     = $userId;
-        $this->params     = $params;
+        $this->mongodb_connection = config('apanalytics.db_connection', 'mongodb');
+        $this->collection         = $collection;
+        $this->items              = $items;
+        $this->userId             = $userId;
+        $this->params             = $params;
     }
 
     public function handle()
     {
-        $connection = $this->connection;
+        $connection = $this->mongodb_connection;
         $collection = $this->collection;
         $items      = $this->items;
         $userId     = $this->userId;
