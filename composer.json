@@ -24,7 +24,10 @@
   "autoload": {
     "psr-4": {
       "AshPowell\\APAnalytics\\": "src"
-    }
+    },
+    "files": [
+      "src/Helpers.php"
+    ]
   },
   "autoload-dev": {
     "psr-4": {
@@ -41,7 +44,10 @@
     "laravel": {
       "providers": [
         "AshPowell\\APAnalytics\\ServiceProvider"
-      ]
+      ],
+      "aliases": {
+        "Analytics": "AshPowell\\APAnalytics\\Facades"
+      }
     }
   },
   "config": {

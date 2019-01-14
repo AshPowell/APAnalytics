@@ -26,6 +26,21 @@ if (! function_exists('trackEvent')) {
     }
 }
 
+if (! function_exists('showEvents')) {
+    /**
+     * Access event dispatch of event tracker direct
+     * @param mixed      $event
+     * @param mixed      $collection
+     * @param mixed      $items
+     * @param mixed      $params
+     * @param null|mixed $userId
+     */
+    function showEvents($collection, $timeframe = null, $filters = null)
+    {
+        return analytics()->show($collection, $timeframe, $filters);
+    }
+}
+
 if (!function_exists('is_countable')) {
     function is_countable($c)
     {
