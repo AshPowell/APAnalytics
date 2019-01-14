@@ -34,6 +34,8 @@ if (! function_exists('showEvents')) {
      * @param mixed      $items
      * @param mixed      $params
      * @param null|mixed $userId
+     * @param null|mixed $timeframe
+     * @param null|mixed $filters
      */
     function showEvents($collection, $timeframe = null, $filters = null)
     {
