@@ -1,0 +1,52 @@
+{
+  "name": "ash-powell/apanalytics",
+  "description": "A MongoDB Analytics Tracking and Parsing Package",
+  "license": "MIT",
+  "keywords": [
+    "apanalytics"
+  ],
+  "type": "library",
+  "authors": [
+    {
+      "name": "Ash Powell",
+      "email": "ash-powell@hotmail.co.uk"
+    }
+  ],
+  "require": {
+    "php": ">=7.0",
+    "illuminate/support": "~5.7.0",
+    "jenssegers/mongodb": "^3.4"
+  },
+  "require-dev": {
+    "orchestra/testbench": "~3.7.0",
+    "phpunit/phpunit": "^7.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "AshPowell\\APAnalytics\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "AshPowell\\APAnalytics\\Tests\\": "tests"
+    },
+    "files": [
+      "vendor/phpunit/phpunit/src/Framework/Assert/Functions.php"
+    ]
+  },
+  "scripts": {
+    "phpunit": "phpunit"
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "AshPowell\\APAnalytics\\ServiceProvider"
+      ]
+    }
+  },
+  "config": {
+    "preferred-install": "dist",
+    "sort-packages": true,
+    "optimize-autoloader": true
+  }
+}
