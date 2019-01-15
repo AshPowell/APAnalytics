@@ -3,8 +3,6 @@
 [![Build Status](https://travis-ci.org/AshPowell/APAnalytics.svg?branch=master)](https://travis-ci.org/AshPowell/APAnalytics)
 [![styleci](https://styleci.io/repos/165663557/shield)](https://styleci.io/repos/165663557)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/AshPowell/APAnalytics/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/AshPowell/APAnalytics/?branch=master)
-[![SensioLabsInsight](https://insight.sensiolabs.com/projects/CHANGEME/mini.png)](https://insight.sensiolabs.com/projects/CHANGEME)
-[![Coverage Status](https://coveralls.io/repos/github/ash-powell/apanalytics/badge.svg?branch=master)](https://coveralls.io/github/ash-powell/apanalytics?branch=master)
 
 [![Packagist](https://img.shields.io/packagist/v/ash-powell/apanalytics.svg)](https://packagist.org/packages/ash-powell/apanalytics)
 [![Packagist](https://poser.pugx.org/ash-powell/apanalytics/d/total.svg)](https://packagist.org/packages/ash-powell/apanalytics)
