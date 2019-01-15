@@ -6,7 +6,7 @@ use AshPowell\APAnalytics\Traits\isAnalytic;
 use Jenssegers\Mongodb\Eloquent\Model;
 
 /**
- * Class AnalyticModel
+ * Class AnalyticModel.
  */
 class AnalyticModel extends Model
 {

@@ -2,11 +2,11 @@
 
 namespace AshPowell\APAnalytics;
 
-use \Illuminate\Support\ServiceProvider;
+use Illuminate\Support\ServiceProvider;
 
 class APAnalyticsServiceProvider extends ServiceProvider
 {
-    const CONFIG_PATH = __DIR__ . '/../config/apanalytics.php';
+    const CONFIG_PATH = __DIR__.'/../config/apanalytics.php';
 
     public function boot()
     {
