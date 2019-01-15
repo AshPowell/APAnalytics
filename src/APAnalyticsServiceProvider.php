@@ -21,6 +21,8 @@ class APAnalyticsServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(self::CONFIG_PATH, 'apanalytics');
 
+        $this->app->register(EventServiceProvider::class);
+
         $this->app->singleton('apanalytics', function () {
             return new APAnalytics();
         });

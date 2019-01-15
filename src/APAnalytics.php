@@ -3,6 +3,7 @@
 namespace AshPowell\APAnalytics;
 
 use App\User;
+use AshPowell\APAnalytics\Events\TrackAnalytic;
 use AshPowell\APAnalytics\Jobs\Track;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -26,13 +27,31 @@ class APAnalytics
         $this->namespace  = config('apanalytic.namespace', '\App\\');
     }
 
+    /**
+     * Track the Analytic
+     *
+     * @return void
+     * @param  mixed      $collection
+     * @param  mixed      $items
+     * @param  null|mixed $userId
+     * @param  mixed      $params
+     */
     public function track($collection, $items, $userId = null, $params = [])
     {
-        Track::dispatch($collection, $items, $userId, $params);
+        //Track::dispatch($collection, $items, $userId, $params);
+        event(new TrackAnalytic($collection, $items, $userId, $params));
 
         return true;
     }
 
+    /**
+     * Get the Analytics
+     *
+     * @return void
+     * @param  mixed      $collection
+     * @param  null|mixed $timeframe
+     * @param  null|mixed $filters
+     */
     public function show($collection, $timeframe = null, $filters = null)
     {
         $start        = $timeframe ? array_get($timeframe, 'start') : null;
