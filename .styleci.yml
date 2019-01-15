@@ -1,21 +1,17 @@
 preset: laravel
+risky: true
 
 enabled:
   - alpha_ordered_imports
-  - align_comments
   - align_double_arrow
   - align_equals
-  - short_array_syntax
-  - no_useless_return
-  - single_quote
-  - no_unused_imports
   - ordered_class_elements
   - phpdoc_add_missing_param_annotation
   - is_null
-  - no_extra_consecutive_blank_lines
 
 disabled:
   - length_ordered_imports
+  - unalign_equals
 
 finder:
   exclude:
