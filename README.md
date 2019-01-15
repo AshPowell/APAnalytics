@@ -1,8 +1,8 @@
 # APAnalytics Package
 
-[![Build Status](https://travis-ci.org/ash-powell/apanalytics.svg?branch=master)](https://travis-ci.org/ash-powell/apanalytics)
+[![Build Status](https://travis-ci.org/AshPowell/APAnalytics.svg?branch=master)](https://travis-ci.org/AshPowell/APAnalytics)
 [![styleci](https://styleci.io/repos/165663557/shield)](https://styleci.io/repos/165663557)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/ash-powell/apanalytics/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/ash-powell/apanalytics/?branch=master)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/AshPowell/APAnalytics/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/AshPowell/APAnalytics/?branch=master)
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/CHANGEME/mini.png)](https://insight.sensiolabs.com/projects/CHANGEME)
 [![Coverage Status](https://coveralls.io/repos/github/ash-powell/apanalytics/badge.svg?branch=master)](https://coveralls.io/github/ash-powell/apanalytics?branch=master)
 
