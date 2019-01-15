@@ -53,6 +53,7 @@ if (! function_exists('is_countable')) {
 if (! function_exists('mongoTime')) {
     /**
      * Returns time in MongoDb Time.
+     * @param null|mixed $time
      */
     function mongoTime($time = null)
     {
