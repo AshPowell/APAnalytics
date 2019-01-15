@@ -2,7 +2,7 @@
 
 namespace AshPowell\APAnalytics;
 
-use AshPowell\APAnalytics\Traits\isAnalytic;
+use AshPowell\APAnalytics\Traits\IsAnalytic;
 use Jenssegers\Mongodb\Eloquent\Model;
 
 /**
@@ -10,5 +10,5 @@ use Jenssegers\Mongodb\Eloquent\Model;
  */
 class AnalyticModel extends Model
 {
-    use isAnalytic;
+    use IsAnalytic;
 }
