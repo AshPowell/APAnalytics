@@ -15,7 +15,7 @@ trait IsAnalytic
     }
 
     /**
-     * If the specified user owns this model
+     * If the specified user owns this model.
      *
      * @param User $user
      */

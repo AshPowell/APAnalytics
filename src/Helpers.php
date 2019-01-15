@@ -1,8 +1,8 @@
 <?php
 
-use \MongoDB\BSON\UTCDateTime;
 use AshPowell\APAnalytics\APAnalytics;
 use Illuminate\Support\Carbon;
+use MongoDB\BSON\UTCDateTime;
 
 if (! function_exists('analytics')) {
     function analytics(): APAnalytics
@@ -13,7 +13,7 @@ if (! function_exists('analytics')) {
 
 if (! function_exists('trackEvent')) {
     /**
-     * Access event dispatch of event tracker direct
+     * Access event dispatch of event tracker direct.
      * @param mixed      $event
      * @param mixed      $collection
      * @param mixed      $items
@@ -28,7 +28,7 @@ if (! function_exists('trackEvent')) {
 
 if (! function_exists('showEvents')) {
     /**
-     * Access event dispatch of event tracker direct
+     * Access event dispatch of event tracker direct.
      * @param mixed      $event
      * @param mixed      $collection
      * @param mixed      $items
@@ -43,7 +43,7 @@ if (! function_exists('showEvents')) {
     }
 }
 
-if (!function_exists('is_countable')) {
+if (! function_exists('is_countable')) {
     function is_countable($c)
     {
         return is_array($c) || $c instanceof Countable;
@@ -52,7 +52,7 @@ if (!function_exists('is_countable')) {
 
 if (! function_exists('mongoTime')) {
     /**
-     * Returns time in MongoDb Time
+     * Returns time in MongoDb Time.
      * @param \DateTime|string|null $time
      */
     function mongoTime($time = null)

@@ -38,9 +38,9 @@ class APAnalytics
         $matchArray   = [];
         $filters      = json_decode($filters);
 
-        $model = $this->namespace.studly_case(str_singular($collection)) . 'Analytic';
+        $model = $this->namespace.studly_case(str_singular($collection)).'Analytic';
 
-        if (!class_exists($model)) {
+        if (! class_exists($model)) {
             throw new InvalidArgumentException("Model {$model} does not exist.");
         }
 
@@ -70,8 +70,8 @@ class APAnalytics
             ->collection($collection)
             ->raw(function ($query) use ($matchArray) {
                 return $query->aggregate([
-                    [ '$match' => $matchArray ],
-                    [ '$sort' => ['created_at' => 1] ]
+                    ['$match' => $matchArray],
+                    ['$sort' => ['created_at' => 1]],
                 ]);
             });
 
@@ -81,7 +81,7 @@ class APAnalytics
     }
 
     /**
-     * Convert the Cursor to Laravel Models
+     * Convert the Cursor to Laravel Models.
      *
      * @param [type] $model
      * @param [type] $data
@@ -90,10 +90,10 @@ class APAnalytics
      */
     private function toModels($data, $model = null)
     {
-        if (!$model) {
+        if (! $model) {
             $model = '\Jenssegers\Mongodb\Eloquent\Model';
         }
-        if (!class_exists($model)) {
+        if (! class_exists($model)) {
             throw new InvalidArgumentException("Model {$model} does not exist.");
         }
 
@@ -116,12 +116,12 @@ class APAnalytics
     }
 
     /**
-     * Check specified user has permission to see these analytics
+     * Check specified user has permission to see these analytics.
      *
-     * @param Array $filterArray
+     * @param array $filterArray
      * @param User  $user
      *
-     * @return boolean
+     * @return bool
      */
     private function canViewAnalytic($filterArray, User $user)
     {

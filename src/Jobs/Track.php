@@ -2,15 +2,15 @@
 
 namespace AshPowell\APAnalytics\Jobs;
 
-use \Illuminate\Bus\Queueable;
-use \Illuminate\Contracts\Queue\ShouldQueue;
-use \Illuminate\Database\Eloquent\Collection;
-use \Illuminate\Database\Eloquent\Model;
-use \Illuminate\Foundation\Bus\Dispatchable;
-use \Illuminate\Pagination\LengthAwarePaginator;
-use \Illuminate\Pagination\Paginator;
-use \Illuminate\Queue\InteractsWithQueue;
-use \Illuminate\Queue\SerializesModels;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\DB;
 use Log;
 
@@ -68,11 +68,11 @@ class Track implements ShouldQueue
                         $data = [
                             $basename => [
                                 'id'   => $object->id ?? null,
-                                'type' => $object->type ?? null
+                                'type' => $object->type ?? null,
                             ],
                             'business' => [
-                                'id' => $object->business->id ?? null
-                            ]
+                                'id' => $object->business->id ?? null,
+                            ],
                         ];
 
                         // Add Extra Stuff
@@ -102,7 +102,7 @@ class Track implements ShouldQueue
         $data = array_merge($data, [
             'user_id'    => $userId ?? auth()->id() ?? null,
             'updated_at' => mongoTime(),
-            'created_at' => mongoTime()
+            'created_at' => mongoTime(),
         ]);
 
         return $data;
