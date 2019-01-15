@@ -75,7 +75,7 @@ class APAnalytics
                 ]);
             });
 
-        $data = $this->toModels($model, $data);
+        $data = $this->toModels($data, $model);
 
         return $data;
     }
@@ -88,8 +88,11 @@ class APAnalytics
      *
      * @return void
      */
-    private function toModels($model, $data)
+    private function toModels($data, $model = null)
     {
+        if (!$model) {
+            $model = '\Jenssegers\Mongodb\Eloquent\Model';
+        }
         if (!class_exists($model)) {
             throw new InvalidArgumentException("Model {$model} does not exist.");
         }
