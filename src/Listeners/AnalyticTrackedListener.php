@@ -43,6 +43,6 @@ class AnalyticTrackedListener
      */
     public function handle(AnalyticTracked $event)
     {
-        dd('fired');
+        //
     }
 }
