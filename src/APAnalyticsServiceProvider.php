@@ -3,6 +3,7 @@
 namespace AshPowell\APAnalytics;
 
 use Illuminate\Support\ServiceProvider;
+use AshPowell\APAnalytics\APAnalyticsEventServiceProvider;
 
 class APAnalyticsServiceProvider extends ServiceProvider
 {
@@ -21,7 +22,7 @@ class APAnalyticsServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(self::CONFIG_PATH, 'apanalytics');
 
-        $this->app->register(EventServiceProvider::class);
+        $this->app->register(APAnalyticsEventServiceProvider::class);
 
         $this->app->singleton('apanalytics', function () {
             return new APAnalytics();
