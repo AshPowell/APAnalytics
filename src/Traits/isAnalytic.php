@@ -3,7 +3,6 @@
 namespace AshPowell\APAnalytics\Traits;
 
 use App\User;
-use Illuminate\Database\Eloquent\Model;
 
 trait IsAnalytic
 {
