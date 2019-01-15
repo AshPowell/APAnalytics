@@ -4,8 +4,8 @@ namespace AshPowell\APAnalytics;
 
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
-use AshPowell\APAnalytics\Events\TrackAnalytic;
-use AshPowell\APAnalytics\Listeners\TrackAnalyticListener;
+use AshPowell\APAnalytics\Events\AnalyticTracked;
+use AshPowell\APAnalytics\Listeners\AnalyticTrackedListener;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -15,8 +15,8 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        TrackAnalytic::class => [
-            TrackAnalyticListener::class,
+        AnalyticTracked::class => [
+            AnalyticTrackedListener::class,
         ]
     ];
     /**

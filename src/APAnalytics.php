@@ -38,8 +38,7 @@ class APAnalytics
      */
     public function track($collection, $items, $userId = null, $params = [])
     {
-        //Track::dispatch($collection, $items, $userId, $params);
-        event(new TrackAnalytic($collection, $items, $userId, $params));
+        Track::dispatch($collection, $items, $userId, $params);
 
         return true;
     }

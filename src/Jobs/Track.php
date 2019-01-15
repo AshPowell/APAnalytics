@@ -13,6 +13,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\DB;
 use Log;
+use AshPowell\APAnalytics\Events\AnalyticTracked;
 
 class Track implements ShouldQueue
 {
@@ -62,21 +63,23 @@ class Track implements ShouldQueue
 
             try {
                 if ($postEvent) {
-                    foreach ($items as $object) {
-                        $basename = strtolower(class_basename($object));
+                    foreach ($items as $item) {
+                        $basename = strtolower(class_basename($item));
 
                         $data = [
                             $basename => [
-                                'id'   => $object->id ?? null,
-                                'type' => $object->type ?? null,
+                                'id'   => $item->id ?? null,
+                                'type' => $item->type ?? null,
                             ],
                             'business' => [
-                                'id' => $object->business->id ?? null,
+                                'id' => $item->business->id ?? null,
                             ],
                         ];
 
                         // Add Extra Stuff
                         $data = $this->addExtraEventData($data, $userId, $params);
+
+                        event(new AnalyticTracked($item));
 
                         $event[] = $data;
                     }
