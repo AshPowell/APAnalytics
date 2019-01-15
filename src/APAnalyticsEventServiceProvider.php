@@ -2,12 +2,12 @@
 
 namespace AshPowell\APAnalytics;
 
-use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Event;
 use AshPowell\APAnalytics\Events\AnalyticTracked;
 use AshPowell\APAnalytics\Listeners\AnalyticTrackedListener;
+use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Event;
 
-class EventServiceProvider extends ServiceProvider
+class APAnalyticsEventServiceProvider extends ServiceProvider
 {
     /**
      * The event listener mappings for the application.
@@ -17,8 +17,9 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         AnalyticTracked::class => [
             AnalyticTrackedListener::class,
-        ]
+        ],
     ];
+
     /**
      * Register any events for your application.
      *

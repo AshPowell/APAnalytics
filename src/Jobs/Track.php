@@ -2,6 +2,7 @@
 
 namespace AshPowell\APAnalytics\Jobs;
 
+use AshPowell\APAnalytics\Events\AnalyticTracked;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Database\Eloquent\Collection;
@@ -13,7 +14,6 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\DB;
 use Log;
-use AshPowell\APAnalytics\Events\AnalyticTracked;
 
 class Track implements ShouldQueue
 {

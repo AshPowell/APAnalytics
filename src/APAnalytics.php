@@ -3,7 +3,6 @@
 namespace AshPowell\APAnalytics;
 
 use App\User;
-use AshPowell\APAnalytics\Events\TrackAnalytic;
 use AshPowell\APAnalytics\Jobs\Track;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -28,7 +27,7 @@ class APAnalytics
     }
 
     /**
-     * Track the Analytic
+     * Track the Analytic.
      *
      * @return void
      * @param  mixed      $collection
@@ -44,7 +43,7 @@ class APAnalytics
     }
 
     /**
-     * Get the Analytics
+     * Get the Analytics.
      *
      * @return void
      * @param  mixed      $collection
