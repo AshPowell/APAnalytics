@@ -29,6 +29,8 @@ class APAnalytics
     public function track($collection, $items, $userId = null, $params = [])
     {
         Track::dispatch($collection, $items, $userId, $params);
+
+        return true;
     }
 
     public function show($collection, $timeframe = null, $filters = null)
