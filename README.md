@@ -50,21 +50,12 @@ php artisan vendor:publish --provider="AshPowell\APAnalytics\APAnalyticsServiceP
 
 ## Usage
 
-### Extend Analytic Models From Jessenger instead of Elequent
+### Extend Analytic Models our Model instead of Elequent
+#### This will make sure the correct db connection and collection are used
 ```php
-use Jenssegers\Mongodb\Eloquent\Model;
+use AshPowell\APAnalytics\AnalyticModel as Model;
 
 class ViewAnalytic extends Model;
-```
-
-### Use Custom Trait to set correct db etc
-```php
-use Jenssegers\Mongodb\Eloquent\Model;
-use AshPowell\APAnalytics\Traits\isAnalytic;
-
-class ViewAnalytic extends Model
-{
-    use isAnalytic;
 ```
 
 ### To Log events simply use the built in helper as follows:
