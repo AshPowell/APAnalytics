@@ -8,14 +8,17 @@
          convertWarningsToExceptions="true"
          processIsolation="false"
          stopOnFailure="false">
-  <testsuites>
-    <testsuite name="package">
-      <directory suffix="Test.php">tests</directory>
-    </testsuite>
-  </testsuites>
-  <filter>
-    <whitelist processUncoveredFilesFromWhitelist="true">
-      <directory suffix=".php">src</directory>
-    </whitelist>
-  </filter>
+    <testsuites>
+        <testsuite name="package">
+            <directory suffix="Test.php">tests</directory>
+        </testsuite>
+    </testsuites>
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">src</directory>
+            <exclude>
+                <file>./src/Routes.php</file>
+            </exclude>
+        </whitelist>
+    </filter>
 </phpunit>
