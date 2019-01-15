@@ -3,7 +3,6 @@
 namespace AshPowell\APAnalytics;
 
 use Illuminate\Support\ServiceProvider;
-use AshPowell\APAnalytics\APAnalyticsEventServiceProvider;
 
 class APAnalyticsServiceProvider extends ServiceProvider
 {
