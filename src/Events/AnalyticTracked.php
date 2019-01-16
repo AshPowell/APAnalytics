@@ -23,6 +23,7 @@ class AnalyticTracked implements ShouldBroadcast
      * @return void
      * @param  mixed $item
      * @param  mixed $basename
+     * @param mixed $collection
      */
     public function __construct($collection, $basename, $item)
     {
@@ -55,7 +56,7 @@ class AnalyticTracked implements ShouldBroadcast
             'collection' => $this->collection,
             'itemType'   => $this->basename,
             'itemId'     => $this->itemId,
-            'created_at' => $created_at->toDateTime()->format('c')
+            'created_at' => $created_at->toDateTime()->format('c'),
         ];
     }
 }
