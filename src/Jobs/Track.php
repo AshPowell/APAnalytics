@@ -79,7 +79,7 @@ class Track implements ShouldQueue
                         // Add Extra Stuff
                         $data = $this->addExtraEventData($data, $userId, $params);
 
-                        event(new AnalyticTracked($basename, $data));
+                        event(new AnalyticTracked($collection, $basename, $data));
 
                         $event[] = $data;
                     }

@@ -12,6 +12,7 @@ class AnalyticTracked implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
+    public $collection;
     public $basename;
     public $item;
     public $itemId;
@@ -23,11 +24,12 @@ class AnalyticTracked implements ShouldBroadcast
      * @param  mixed $item
      * @param  mixed $basename
      */
-    public function __construct($basename, $item)
+    public function __construct($collection, $basename, $item)
     {
-        $this->basename = $basename;
-        $this->item     = $item;
-        $this->itemId   = array_get($this->item, "{$this->basename}.id");
+        $this->collection = $collection;
+        $this->basename   = $basename;
+        $this->item       = $item;
+        $this->itemId     = array_get($this->item, "{$this->basename}.id");
     }
 
     /**
@@ -37,7 +39,7 @@ class AnalyticTracked implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PresenceChannel('analytics.'.$this->basename.'.'.$this->itemId);
+        return new PresenceChannel("analytics.{$this->collection}.{$this->basename}.{$this->itemId}");
     }
 
     /**
@@ -50,9 +52,10 @@ class AnalyticTracked implements ShouldBroadcast
         $created_at = array_get($this->item, 'created_at') ?? mongoTime();
 
         return [
+            'collection' => $this->collection,
             'itemType'   => $this->basename,
             'itemId'     => $this->itemId,
-            'created_at' => $created_at->toDateTime()->getTimestamp()
+            'created_at' => $created_at->toDateTime()->format('c')
         ];
     }
 }
