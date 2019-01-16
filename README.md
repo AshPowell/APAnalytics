@@ -72,8 +72,5 @@ instead of using the issue tracker.
 
 ## Credits
 
-- [Ash Powell](https://github.com/ash-powell/apanalytics)
-- [All contributors](https://github.com/ash-powell/apanalytics/graphs/contributors)
-
 This package relies heavily on
 [jenssegers/laravel-mongodb](https://github.com/jenssegers/laravel-mongodb).
