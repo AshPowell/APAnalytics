@@ -37,9 +37,9 @@ if (! function_exists('showEvents')) {
      * @param null|mixed $timeframe
      * @param null|mixed $filters
      */
-    function showEvents($collection, $timeframe = null, $filters = null)
+    function showEvents($collection, $interval = 'count', $timeframe = null, $filters = null)
     {
-        return analytics()->show($collection, $timeframe, $filters);
+        return analytics()->show($collection, $interval, $timeframe, $filters);
     }
 }
 

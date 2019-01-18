@@ -49,8 +49,9 @@ class APAnalytics
      * @param  mixed      $collection
      * @param  null|mixed $timeframe
      * @param  null|mixed $filters
+     * @param  mixed      $interval
      */
-    public function show($collection, $timeframe = null, $filters = null)
+    public function show($collection, $interval = 'count', $timeframe = null, $filters = null)
     {
         $start        = $timeframe ? array_get($timeframe, 'start') : null;
         $end          = $timeframe ? array_get($timeframe, 'end') : null;
@@ -85,16 +86,43 @@ class APAnalytics
             $matchArray['created_at']['$lt'] = mongoTime($end);
         }
 
-        $data = DB::connection($this->connection)
-            ->collection($collection)
-            ->raw(function ($query) use ($matchArray) {
-                return $query->aggregate([
-                    ['$match' => $matchArray],
-                    ['$sort' => ['created_at' => 1]],
-                ]);
-            });
+        $aggregate = [];
 
-        $data = $this->toModels($data, $model);
+        if ($matchArray) {
+            $aggregate[] = ['$match' => $matchArray];
+        }
+
+        $aggregate[] = ['$sort' => ['created_at' => 1]];
+
+        $aggregate[] = [
+            '$project' => [
+                'created_at' => 1
+            ],
+        ];
+
+        //$aggregate[] = ['$batchSize' => 1000];
+
+        // $data = DB::connection($this->connection)
+        //     ->collection($collection)
+        //     ->raw(function ($query) use ($aggregate) {
+        //         return $query->aggregate($aggregate);
+        //     });
+
+        $data = DB::connection($this->connection)
+                ->collection($collection)
+                ->raw(function ($collection) use ($matchArray, $interval, $aggregate) {
+                    if ($interval == 'count') {
+                        return $collection->count($matchArray);
+                    }
+
+                    if ($aggregate) {
+                        return $collection->aggregate($aggregate, ['allowDiskUse' => true]);
+                    }
+                });
+
+        if ($interval != 'count') {
+            $data = $this->toModels($data, $model);
+        }
 
         return $data;
     }
@@ -112,6 +140,7 @@ class APAnalytics
         if (! $model) {
             $model = '\Jenssegers\Mongodb\Eloquent\Model';
         }
+
         if (! class_exists($model)) {
             throw new InvalidArgumentException("Model {$model} does not exist.");
         }
