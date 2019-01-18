@@ -5,7 +5,6 @@ namespace AshPowell\APAnalytics;
 use App\User;
 use AshPowell\APAnalytics\Jobs\Track;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 use InvalidArgumentException;
 use MongoDB\Driver\Cursor;
 use MongoDB\Model\BSONDocument;
@@ -53,10 +52,12 @@ class APAnalytics
      */
     public function show($collection, $interval = 'count', $timeframe = null, $filters = null)
     {
-        $start        = $timeframe ? array_get($timeframe, 'start') : null;
-        $end          = $timeframe ? array_get($timeframe, 'end') : null;
-        $matchArray   = [];
-        $filters      = json_decode($filters);
+        $start          = $timeframe ? array_get($timeframe, 'start') : null;
+        $end            = $timeframe ? array_get($timeframe, 'end') : null;
+        $matchArray     = [];
+        $filters        = json_decode($filters);
+        $intervalFormat = '%Y-%m-%dT%H';
+        $aggregate      = [];
 
         $model = $this->namespace.studly_case(str_singular($collection)).'Analytic';
 
@@ -86,43 +87,53 @@ class APAnalytics
             $matchArray['created_at']['$lt'] = mongoTime($end);
         }
 
-        $aggregate = [];
-
         if ($matchArray) {
             $aggregate[] = ['$match' => $matchArray];
         }
 
-        $aggregate[] = ['$sort' => ['created_at' => 1]];
-
-        $aggregate[] = [
-            '$project' => [
-                'created_at' => 1
-            ],
-        ];
-
-        //$aggregate[] = ['$batchSize' => 1000];
-
-        // $data = DB::connection($this->connection)
-        //     ->collection($collection)
-        //     ->raw(function ($query) use ($aggregate) {
-        //         return $query->aggregate($aggregate);
-        //     });
-
-        $data = DB::connection($this->connection)
-                ->collection($collection)
-                ->raw(function ($collection) use ($matchArray, $interval, $aggregate) {
-                    if ($interval == 'count') {
-                        return $collection->count($matchArray);
-                    }
-
-                    if ($aggregate) {
-                        return $collection->aggregate($aggregate, ['allowDiskUse' => true]);
-                    }
-                });
-
         if ($interval != 'count') {
-            $data = $this->toModels($data, $model);
+            if ($interval == 'daily') {
+                $intervalFormat = '%Y-%m-%d';
+            }
+
+            if ($interval == 'monthly') {
+                $intervalFormat = '%Y-%m';
+            }
+
+            $aggregate[] =  [
+                '$group' => [
+                    '_id' => [
+                        '$dateToString' => ['date' => '$created_at', 'format' => $intervalFormat]
+                    ],
+                    'count' => [
+                        '$sum' => 1
+                    ],
+                    'created_at' => [
+                        '$first' => '$created_at'
+                    ]
+                ],
+            ];
+
+            $aggregate[] = ['$sort' => ['created_at' => 1]];
+
+            $aggregate[] = [
+                '$project' => [
+                    '_id'        => 0,
+                    'created_at' => 1,
+                    'count'      => 1
+                ],
+            ];
         }
+
+        $data = $model::raw(function ($collection) use ($matchArray, $interval, $aggregate) {
+            if ($interval == 'count') {
+                return $collection->count($matchArray);
+            }
+
+            if ($aggregate) {
+                return $collection->aggregate($aggregate, ['allowDiskUse' => true]);
+            }
+        });
 
         return $data;
     }
@@ -130,10 +141,9 @@ class APAnalytics
     /**
      * Convert the Cursor to Laravel Models.
      *
-     * @param [type] $model
-     * @param [type] $data
-     *
      * @return void
+     * @param  mixed      $data
+     * @param  null|mixed $model
      */
     private function toModels($data, $model = null)
     {
