@@ -96,6 +96,10 @@ class APAnalytics
                 $intervalFormat = '%Y-%m-%d';
             }
 
+            if ($interval == 'weekly') {
+                $intervalFormat = '%Y-%U';
+            }
+
             if ($interval == 'monthly') {
                 $intervalFormat = '%Y-%m';
             }
