@@ -36,6 +36,10 @@ class APAnalytics
      */
     public function track($collection, $items, $userId = null, $params = [])
     {
+        if ($items instanceof \Illuminate\Database\Eloquent\Model) {
+            $items = $items->fresh();
+        }
+
         Track::dispatch($collection, $items, $userId, $params);
 
         return true;
