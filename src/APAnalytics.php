@@ -65,7 +65,6 @@ class APAnalytics
         $filters        = json_decode($filters);
         $intervalFormat = '%Y-%m-%dT%H';
         $aggregate      = [];
-
         $model = $this->namespace.studly_case(str_singular($collection)).'Analytic';
 
         if (! class_exists($model)) {
@@ -84,7 +83,7 @@ class APAnalytics
             }
         }
 
-        abort_unless($this->canViewAnalytic($matchArray, auth()->user()), 403, 'You dont have permission to view these analytics');
+        abort_unless($this->canViewAnalytic($model, $matchArray, auth()->user()), 403, 'You dont have permission to view these analytics');
 
         if ($start) {
             $matchArray['created_at']['$gte'] = mongoTime($start);
@@ -192,20 +191,20 @@ class APAnalytics
      *
      * @return bool
      */
-    private function canViewAnalytic($filterArray, User $user)
+    private function canViewAnalytic($analyticModel, $filterArray, User $user)
     {
         $modelsToCheck = config('apanalytics.models_require_ownership');
 
         if (count($modelsToCheck)) {
             foreach ($modelsToCheck as $model) {
-                $modelName = studly_case(str_singular($model));
-                $modelId   = array_get($filterArray, strtolower($modelName).'.id');
+                $modelName  = studly_case(str_singular($model));
+                $modelId    = array_get($filterArray, strtolower($modelName).'.id');
+                $modelClass = $this->namespace.$modelName;
 
                 if ($modelId) {
-                    $modelClass = $this->namespace.$modelName;
-                    $model      = $modelClass::find($modelId);
+                    $model = $modelClass::find($modelId);
 
-                    if ($model && $user->isOwner($model)) {
+                    if ($model && $model->canViewAnalytic($user)) {
                         return true;
                     }
 
@@ -214,6 +213,6 @@ class APAnalytics
             }
         }
 
-        return true;
+        return (new $analyticModel)->canViewAnalytic($user);
     }
 }

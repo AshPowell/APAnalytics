@@ -14,13 +14,8 @@ trait IsAnalytic
         $this->guarded    = [];
     }
 
-    /**
-     * If the specified user owns this model.
-     *
-     * @param User $user
-     */
-    public function isOwner(User $user)
+    public function canViewAnalytic(User $user)
     {
-        return $user !== null && $user->id == $this->user_id;
+        return $user->isOwner($this) || $user->isAnyAdmin();
     }
 }
