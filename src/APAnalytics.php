@@ -65,7 +65,7 @@ class APAnalytics
         $filters        = json_decode($filters);
         $intervalFormat = '%Y-%m-%dT%H';
         $aggregate      = [];
-        $model = $this->namespace.studly_case(str_singular($collection)).'Analytic';
+        $model          = $this->namespace.studly_case(str_singular($collection)).'Analytic';
 
         if (! class_exists($model)) {
             throw new InvalidArgumentException("Model {$model} does not exist.");
@@ -188,6 +188,7 @@ class APAnalytics
      *
      * @param array $filterArray
      * @param User  $user
+     * @param mixed $analyticModel
      *
      * @return bool
      */
