@@ -34,6 +34,7 @@ class Track implements ShouldQueue
      * @param  mixed $items
      * @param  mixed $userId
      * @param  mixed $params
+     * @param mixed $type
      */
     public function __construct($collection, $items, $userId, $params, $type = 'insert')
     {
