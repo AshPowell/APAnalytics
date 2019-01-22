@@ -34,7 +34,7 @@ class Track implements ShouldQueue
      * @param  mixed $items
      * @param  mixed $userId
      * @param  mixed $params
-     * @param mixed $type
+     * @param  mixed $type
      */
     public function __construct($collection, $items, $userId, $params, $type = 'insert')
     {
@@ -64,9 +64,9 @@ class Track implements ShouldQueue
 
         if ($valid) {
             $collection = str_plural($collection);
-            $items      = $type == 'update' ? $items : array_wrap(($items instanceof Paginator || $items instanceof LengthAwarePaginator) ? $items->items() : $items);
+            $items      = $this->formatItems($items);
             $postEvent  = in_array($collection, config('apanalytics.format_collections'));
-            $event      = $postEvent || $type == 'update' ? [] : $this->addExtraEventData($items, $userId, $params);
+            $event      = $this->prepEventData($postEvent, $items, $userId, $params, $collection);
 
             try {
                 if ($type == 'insert') {
@@ -111,6 +111,34 @@ class Track implements ShouldQueue
         }
     }
 
+    private function prepEventData($postEvent, $items, $userId, $params, $collection)
+    {
+        if ($postEvent) {
+            return [];
+        }
+
+        if (is_array($items) && $collection != 'visits') {
+            return $items;
+        }
+
+        return $this->addExtraEventData($items, $userId, $params);
+    }
+
+    private function formatItems($items)
+    {
+        $formattedItems = $items;
+
+        if (is_array($formattedItems)) {
+            return $formattedItems;
+        }
+
+        if ($items instanceof Paginator || $items instanceof LengthAwarePaginator) {
+            $formattedItems = $items->items();
+        }
+
+        return array_wrap($formattedItems);
+    }
+
     private function addExtraEventData($data, $userId, $params)
     {
         // Merge our extra parameters
@@ -121,7 +149,6 @@ class Track implements ShouldQueue
         // Standard stuff
         $data = array_merge($data, [
             'user_id'    => $userId ?? auth()->id() ?? null,
-            'updated_at' => mongoTime(),
             'created_at' => mongoTime(),
         ]);
 
