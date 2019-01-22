@@ -114,14 +114,14 @@ class APAnalytics
             $aggregate[] =  [
                 '$group' => [
                     '_id' => [
-                        '$dateToString' => ['date' => '$created_at', 'format' => $intervalFormat]
+                        '$dateToString' => ['date' => '$created_at', 'format' => $intervalFormat],
                     ],
                     'count' => [
-                        '$sum' => 1
+                        '$sum' => 1,
                     ],
                     'created_at' => [
-                        '$first' => '$created_at'
-                    ]
+                        '$first' => '$created_at',
+                    ],
                 ],
             ];
 
@@ -131,7 +131,7 @@ class APAnalytics
                 '$project' => [
                     '_id'        => 0,
                     'created_at' => 1,
-                    'count'      => 1
+                    'count'      => 1,
                 ],
             ];
         }
