@@ -56,8 +56,11 @@ class Track implements ShouldQueue
         $userId     = $this->userId;
         $params     = $this->params;
         $type       = $this->type;
+        $valid      = true;
 
-        $valid = ($items instanceof Collection) ? $items->count() : ($items instanceof Model) ? 1 : $type != 'update' ? count($items) : 1;
+        if ($type != 'update') {
+            $valid = ($items instanceof Collection) ? $items->count() : ($items instanceof Model) ? 1 : count($items);
+        }
 
         if ($valid) {
             $collection = str_plural($collection);
