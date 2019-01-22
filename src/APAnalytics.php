@@ -41,6 +41,13 @@ class APAnalytics
         return true;
     }
 
+    public function update($collection, $item, $params)
+    {
+        Track::dispatch($collection, $item, null, $params, 'update');
+
+        return true;
+    }
+
     /**
      * Get the Analytics.
      *
