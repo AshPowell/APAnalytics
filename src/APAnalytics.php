@@ -205,7 +205,7 @@ class APAnalytics
                 if ($modelId) {
                     $model = $modelClass::find($modelId);
 
-                    if ($model && !$model->canViewAnalytic($user)) {
+                    if ($model && ! $model->canViewAnalytic($user)) {
                         return false;
                     }
                 }
