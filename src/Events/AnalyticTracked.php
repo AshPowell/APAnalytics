@@ -23,7 +23,7 @@ class AnalyticTracked implements ShouldBroadcast
      * @return void
      * @param  mixed $item
      * @param  mixed $basename
-     * @param mixed $collection
+     * @param  mixed $collection
      */
     public function __construct($collection, $basename, $item)
     {

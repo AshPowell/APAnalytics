@@ -14,8 +14,8 @@ trait IsAnalytic
         $this->guarded    = [];
     }
 
-    public function canViewAnalytic(User $user)
+    public function canViewCollection(User $user)
     {
-        return $user->isOwner($this) || $user->isAnyAdmin();
+        return $user->isAnyAdmin();
     }
 }

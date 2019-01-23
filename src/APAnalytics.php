@@ -205,15 +205,15 @@ class APAnalytics
                 if ($modelId) {
                     $model = $modelClass::find($modelId);
 
-                    if ($model && $model->canViewAnalytic($user)) {
-                        return true;
+                    if ($model && !$model->canViewAnalytic($user)) {
+                        return false;
                     }
-
-                    return false;
                 }
             }
+
+            return true;
         }
 
-        return (new $analyticModel)->canViewAnalytic($user);
+        return (new $analyticModel)->canViewCollection($user);
     }
 }
