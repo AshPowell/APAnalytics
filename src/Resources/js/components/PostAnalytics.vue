@@ -3,7 +3,8 @@
         <div v-if="type != 'count'">
             <apexchart
                 :ref="getChartRef"
-                width="100%"
+                :width="width"
+                :height="height"
                 :type="type"
                 :options="chartOptions"
                 :series="series"
@@ -18,7 +19,7 @@
                 >{{ collection }}</button>
             </div>
         </div>
-        <span v-else class="analytics-number">{{ animatedNumber }}</span>
+        <span v-else class="analytics-number" v-tooltip:bottom="count" :title="count">{{ animatedNumber }}</span>
     </div>
     <div
         v-else
@@ -35,6 +36,31 @@ import VueApexCharts from "vue-apexcharts";
 Vue.use(VueApexCharts);
 Vue.component("apexchart", VueApexCharts);
 
+const bsTooltip = (el, binding) => {
+    $(el).tooltip('dispose');
+  const t = []
+
+  if (binding.modifiers.focus) t.push('focus')
+  if (binding.modifiers.hover) t.push('hover')
+  if (binding.modifiers.click) t.push('click')
+  if (!t.length) t.push('hover')
+
+$(el).tooltip({
+    title: binding.value,
+    placement: binding.arg || 'top',
+    trigger: t.join(' '),
+    html: !!binding.modifiers.html,
+  });
+}
+
+Vue.directive('tooltip', {
+  bind: bsTooltip,
+  update: bsTooltip,
+  unbind (el) {
+    $(el).tooltip('dispose')
+  }
+});
+
 export default {
     props: {
         collection: { type: String, required: true },
@@ -49,10 +75,14 @@ export default {
             }
         },
         type: { type: String, default: "count" },
+        countFormat: String,
         filters: String,
         colours: { type: String, default: "#298eea, #9dcd10, #a58ee8" },
         listenClass: String,
-        listenId: String
+        listenId: String,
+        sparkEnabled: { type: Boolean, default: false },
+        height: [String, Number],
+        width: {type: [String, Number], default: '100%' }
     },
     computed: {
         getChartRef: function() {
@@ -60,7 +90,17 @@ export default {
             return this.getCollection()[0] + chartType;
         },
         animatedNumber: function() {
-            return this.tweenedNumber.toFixed(0);
+            var num = this.tweenedNumber;
+
+            if (this.countFormat == 'true') {
+                if (num > 999999) {
+                    return (num/1000000).toFixed(2) + 'm';
+                } else if (num > 999) {
+                    return (num/1000).toFixed(1) + 'k';
+                }
+            }
+
+            return num.toFixed(0);
         }
     },
     watch: {
@@ -85,6 +125,11 @@ export default {
                     min: moment(this.startDate).valueOf(),
                     max: moment(this.endDate).valueOf(),
                     tickAmount: 6
+                },
+                chart: {
+                    sparkline: {
+                        enabled: this.sparkEnabled
+                    }
                 }
             },
             series: [],
@@ -161,7 +206,7 @@ export default {
                     },
                     interval: this.interval,
                     type: this.type
-                }, { timeout: 7000 })
+                }, { timeout: 15000 })
                     .then(response => {
                         if (this.type === "count") {
                             this.count = response.data;
@@ -205,8 +250,7 @@ export default {
         },
         listenForUpdates() {
             if (
-                Snizl.user &&
-                Snizl.user.id &&
+                this.$root.userId &&
                 this.listenClass &&
                 this.listenId
             ) {
