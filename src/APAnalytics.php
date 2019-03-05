@@ -51,7 +51,6 @@ class APAnalytics
     /**
      * Get the Analytics.
      *
-     * @return void
      * @param  mixed      $collection
      * @param  null|mixed $timeframe
      * @param  null|mixed $filters
