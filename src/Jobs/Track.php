@@ -59,7 +59,7 @@ class Track implements ShouldQueue
         $valid      = true;
 
         if ($type != 'update') {
-            $valid = ($items instanceof Collection) ? $items->count() : ($items instanceof Model) ? 1 : count($items);
+            $valid = ($items instanceof Collection) ? $items->count() : ($items instanceof Model) ? 1 : ($items != null) ? count($items) : 0;
         }
 
         if ($valid) {
