@@ -4,10 +4,11 @@ namespace AshPowell\APAnalytics;
 
 use App\User;
 use AshPowell\APAnalytics\Jobs\Track;
-use Illuminate\Database\Eloquent\Model;
 use InvalidArgumentException;
 use MongoDB\Driver\Cursor;
 use MongoDB\Model\BSONDocument;
+use Illuminate\Support\Str;
+use Illuminate\Support\Arr;
 
 class APAnalytics
 {
@@ -58,13 +59,13 @@ class APAnalytics
      */
     public function show($collection, $interval = 'count', $timeframe = null, $filters = null)
     {
-        $start          = $timeframe ? array_get($timeframe, 'start') : null;
-        $end            = $timeframe ? array_get($timeframe, 'end') : null;
+        $start          = $timeframe ? Arr::get($timeframe, 'start') : null;
+        $end            = $timeframe ? Arr::get($timeframe, 'end') : null;
         $matchArray     = [];
         $filters        = json_decode($filters);
         $intervalFormat = '%Y-%m-%dT%H';
         $aggregate      = [];
-        $model          = $this->namespace.studly_case(str_singular($collection)).'Analytic';
+        $model          = $this->namespace.Str::studly(Str::singular($collection)).'Analytic';
 
         if (! class_exists($model)) {
             throw new InvalidArgumentException("Model {$model} does not exist.");
@@ -197,8 +198,8 @@ class APAnalytics
 
         if (count($modelsToCheck)) {
             foreach ($modelsToCheck as $model) {
-                $modelName  = studly_case(str_singular($model));
-                $modelId    = array_get($filterArray, strtolower($modelName).'.id');
+                $modelName  = Str::studly(Str::singular($model));
+                $modelId    = Arr::get($filterArray, strtolower($modelName).'.id');
                 $modelClass = $this->namespace.$modelName;
 
                 if ($modelId) {

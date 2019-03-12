@@ -5,7 +5,6 @@ namespace AshPowell\APAnalytics;
 use AshPowell\APAnalytics\Events\AnalyticTracked;
 use AshPowell\APAnalytics\Listeners\AnalyticTrackedListener;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Event;
 
 class APAnalyticsEventServiceProvider extends ServiceProvider
 {

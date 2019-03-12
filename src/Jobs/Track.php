@@ -14,6 +14,8 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\DB;
 use Log;
+use Illuminate\Support\Str;
+use Illuminate\Support\Arr;
 
 class Track implements ShouldQueue
 {
@@ -67,7 +69,7 @@ class Track implements ShouldQueue
         }
 
         if ($valid) {
-            $collection = str_plural($collection);
+            $collection = Str::plural($collection);
             $items      = $this->formatItems($items);
             $postEvent  = in_array($collection, config('apanalytics.format_collections'));
             $event      = $this->prepEventData($postEvent, $items, $userId, $params, $collection);
@@ -103,7 +105,7 @@ class Track implements ShouldQueue
                 }
 
                 // Type is update
-                $basename = strtolower(str_singular($collection));
+                $basename = strtolower(Str::singular($collection));
 
                 return DB::connection($connection)
                         ->collection($collection)
@@ -140,7 +142,7 @@ class Track implements ShouldQueue
             $formattedItems = $items->items();
         }
 
-        return array_wrap($formattedItems);
+        return Arr::wrap($formattedItems);
     }
 
     private function addExtraEventData($data, $userId, $params)

@@ -7,6 +7,7 @@ use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use use Illuminate\Support\Arr;
 
 class AnalyticTracked implements ShouldBroadcast
 {
@@ -32,7 +33,7 @@ class AnalyticTracked implements ShouldBroadcast
         $this->collection = $collection;
         $this->basename   = $basename;
         $this->item       = $item;
-        $this->itemId     = array_get($this->item, "{$this->basename}.id");
+        $this->itemId     = Arr::get($this->item, "{$this->basename}.id");
     }
 
     /**
@@ -52,7 +53,7 @@ class AnalyticTracked implements ShouldBroadcast
      */
     public function broadcastWith()
     {
-        $created_at = array_get($this->item, 'created_at') ?? mongoTime();
+        $created_at = Arr::get($this->item, 'created_at') ?? mongoTime();
 
         return [
             'collection' => $this->collection,

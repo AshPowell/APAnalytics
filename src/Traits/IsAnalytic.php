@@ -3,13 +3,14 @@
 namespace AshPowell\APAnalytics\Traits;
 
 use App\User;
+use Illuminate\Support\Str;
 
 trait IsAnalytic
 {
     public function initializeIsAnalytic()
     {
         $this->connection = config('apanalytics.db_connection');
-        $this->collection = str_plural(str_before($this->getTable(), '_'));
+        $this->collection = Str::plural(Str::before($this->getTable(), '_'));
         $this->dates      = ['created_at', 'updated_at'];
         $this->guarded    = [];
     }
