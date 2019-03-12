@@ -4,11 +4,11 @@ namespace AshPowell\APAnalytics;
 
 use App\User;
 use AshPowell\APAnalytics\Jobs\Track;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use InvalidArgumentException;
 use MongoDB\Driver\Cursor;
 use MongoDB\Model\BSONDocument;
-use Illuminate\Support\Str;
-use Illuminate\Support\Arr;
 
 class APAnalytics
 {
