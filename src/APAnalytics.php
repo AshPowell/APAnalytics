@@ -4,11 +4,11 @@ namespace AshPowell\APAnalytics;
 
 use App\User;
 use AshPowell\APAnalytics\Jobs\Track;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use InvalidArgumentException;
 use MongoDB\Driver\Cursor;
 use MongoDB\Model\BSONDocument;
-use Illuminate\Support\Str;
-use Illuminate\Support\Arr;
 
 class APAnalytics
 {
@@ -52,10 +52,10 @@ class APAnalytics
     /**
      * Get the Analytics.
      *
-     * @param  mixed      $collection
-     * @param  null|mixed $timeframe
-     * @param  null|mixed $filters
-     * @param  mixed      $interval
+     * @param mixed      $collection
+     * @param null|mixed $timeframe
+     * @param null|mixed $filters
+     * @param mixed      $interval
      */
     public function show($collection, $interval = 'count', $timeframe = null, $filters = null)
     {
@@ -119,7 +119,7 @@ class APAnalytics
                         '$sum' => 1,
                     ],
                     'created_at' => [
-                        '$first' => '$created_at',
+                        '$last' => '$created_at',
                     ],
                 ],
             ];
