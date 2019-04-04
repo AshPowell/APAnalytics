@@ -106,7 +106,7 @@ class APAnalytics
                 $intervalFormat = '%Y-%U';
             }
 
-            if ($interval == 'monthly') {
+            if ($interval == 'monthly' || $interval == 'growth') {
                 $intervalFormat = '%Y-%m';
             }
 
