@@ -56,8 +56,9 @@ class APAnalytics
      * @param null|mixed $timeframe
      * @param null|mixed $filters
      * @param mixed      $interval
+     * @param mixed      $groupBy
      */
-    public function show($collection, $interval = 'count', $timeframe = null, $filters = null)
+    public function show($collection, $interval = 'count', $timeframe = null, $filters = null, $groupBy = null)
     {
         $start          = $timeframe ? Arr::get($timeframe, 'start') : null;
         $end            = $timeframe ? Arr::get($timeframe, 'end') : null;
@@ -135,8 +136,35 @@ class APAnalytics
             ];
         }
 
-        $data = $model::raw(function ($collection) use ($matchArray, $interval, $aggregate) {
-            if ($interval == 'count') {
+        if ($interval == 'count' && $groupBy != null) {
+            $nested = Str::contains($groupBy, '.');
+
+            if ($nested) {
+                $aggregate[] = ['$unwind' => '$'.Str::before($groupBy, '.')];
+            }
+
+            $aggregate[] =  [
+                '$group' => [
+                    '_id'   => $groupBy,
+                    'count' => [
+                        '$sum' => 1,
+                    ]
+                ],
+            ];
+
+            $aggregate[] = ['$sort' => ['count' => 1]];
+
+            $aggregate[] = [
+                '$project' => [
+                    '_id'   => 0,
+                    Str::after($groupBy, '.')  => '$_id',
+                    'count' => 1,
+                ],
+            ];
+        }
+
+        $data = $model::raw(function ($collection) use ($matchArray, $interval, $aggregate, $groupBy) {
+            if ($interval == 'count' && !$groupBy) {
                 return $collection->count($matchArray);
             }
 
