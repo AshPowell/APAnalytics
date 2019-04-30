@@ -145,7 +145,7 @@ class APAnalytics
 
             $aggregate[] =  [
                 '$group' => [
-                    '_id'   => $groupBy,
+                    '_id'   => '$'.$groupBy,
                     'count' => [
                         '$sum' => 1,
                     ]
