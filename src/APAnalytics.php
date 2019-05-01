@@ -148,7 +148,7 @@ class APAnalytics
                     '_id'   => '$'.$groupBy,
                     'count' => [
                         '$sum' => 1,
-                    ]
+                    ],
                 ],
             ];
 
@@ -164,7 +164,7 @@ class APAnalytics
         }
 
         $data = $model::raw(function ($collection) use ($matchArray, $interval, $aggregate, $groupBy) {
-            if ($interval == 'count' && !$groupBy) {
+            if ($interval == 'count' && ! $groupBy) {
                 return $collection->count($matchArray);
             }
 
