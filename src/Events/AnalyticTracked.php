@@ -43,7 +43,10 @@ class AnalyticTracked implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PresenceChannel("analytics.{$this->collection}.{$this->basename}.{$this->itemId}");
+        return [
+            new PresenceChannel("analytics.{$this->collection}.{$this->basename}.{$this->itemId}"),
+            new PresenceChannel("analytics.{$this->collection}.{$this->basename}.all")
+        ];
     }
 
     /**
