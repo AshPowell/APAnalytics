@@ -45,7 +45,7 @@ class AnalyticTracked implements ShouldBroadcast
     {
         return [
             new PresenceChannel("analytics.{$this->collection}.{$this->basename}.{$this->itemId}"),
-            new PresenceChannel("analytics.{$this->collection}.{$this->basename}.all")
+            new PresenceChannel("analytics.{$this->collection}.{$this->basename}.all"),
         ];
     }
 
