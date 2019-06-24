@@ -108,9 +108,9 @@ class Track implements ShouldQueue
                                     'id'   => $item->id ?? null,
                                 ],
                             ];
-                        }
 
-                        event(new AnalyticTracked($collection, $basename, $data));
+                            event(new AnalyticTracked($collection, $basename, $data));
+                        }
                     }
 
                     return DB::connection($connection)
