@@ -99,6 +99,20 @@ class Track implements ShouldQueue
                         }
                     }
 
+                    // Basic created ie user
+                    if (! $postEvent) {
+                        foreach ($items as $item) {
+                            $basename = strtolower(class_basename($item));
+                            $data     = [
+                                $basename => [
+                                    'id'   => $item->id ?? null,
+                                ],
+                            ];
+                        }
+
+                        event(new AnalyticTracked($collection, $basename, $data));
+                    }
+
                     return DB::connection($connection)
                         ->collection($collection)
                         ->insert($event);
