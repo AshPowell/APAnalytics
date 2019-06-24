@@ -100,7 +100,7 @@ class Track implements ShouldQueue
                     }
 
                     // Basic created ie user
-                    if (! $postEvent) {
+                    if (! $postEvent && $collection != 'visits') {
                         foreach ($items as $item) {
                             $basename = strtolower(Str::singular($collection));
                             $data     = [
