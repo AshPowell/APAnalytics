@@ -43,10 +43,13 @@ class AnalyticTracked implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return [
-            new PresenceChannel("analytics.{$this->collection}.{$this->basename}.{$this->itemId}"),
-            new PresenceChannel("analytics.{$this->collection}.{$this->basename}.all"),
-        ];
+        $postEvent  = in_array($this->collection, config('apanalytics.format_collections'));
+
+        if ($postEvent) {
+            return new PresenceChannel("analytics.{$this->collection}.{$this->basename}.{$this->itemId}");
+        }
+
+        return new PresenceChannel("analytics.{$this->collection}.{$this->basename}.all");
     }
 
     /**
