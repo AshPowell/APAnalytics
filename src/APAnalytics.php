@@ -74,7 +74,7 @@ class APAnalytics
 
         if ($filters) {
             foreach ($filters as $filter) {
-                $propertyValue = $filter->property_value;
+                $propertyValue = is_array($filter) ? Arr::get($filter, 'property_value') : $filter->property_value;
 
                 if (is_numeric($propertyValue)) {
                     $propertyValue = (int) $propertyValue;
