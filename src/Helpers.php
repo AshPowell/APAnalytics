@@ -67,6 +67,10 @@ if (! function_exists('mongoTime')) {
 if (! function_exists('valid_json')) {
     function valid_json($value)
     {
+        if (! is_string($value)) {
+            return false;
+        }
+
         json_decode($value);
 
         return json_last_error() === JSON_ERROR_NONE;
