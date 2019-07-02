@@ -74,13 +74,17 @@ class APAnalytics
 
         if ($filters) {
             foreach ($filters as $filter) {
-                $propertyValue = is_array($filter) ? Arr::get($filter, 'property_value') : $filter->property_value;
+                if (is_array($filter)) {
+                    $matchArray = array_merge($matchArray, $filter);
+                } else {
+                    $propertyValue = $filter->property_value;
 
-                if (is_numeric($propertyValue)) {
-                    $propertyValue = (int) $propertyValue;
+                    if (is_numeric($propertyValue)) {
+                        $propertyValue = (int) $propertyValue;
+                    }
+
+                    $matchArray = array_merge($matchArray, [$filter->property_name => $propertyValue]);
                 }
-
-                $matchArray = array_merge($matchArray, [$filter->property_name => $propertyValue]);
             }
         }
 
