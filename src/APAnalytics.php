@@ -63,7 +63,7 @@ class APAnalytics
         $start          = $timeframe ? Arr::get($timeframe, 'start') : null;
         $end            = $timeframe ? Arr::get($timeframe, 'end') : null;
         $matchArray     = [];
-        $filters        = json_decode($filters);
+        $filters        = valid_json($filters) ? json_decode($filters) : $filters;
         $intervalFormat = '%Y-%m-%dT%H';
         $aggregate      = [];
         $model          = $this->namespace.Str::studly(Str::singular($collection)).'Analytic';

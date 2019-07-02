@@ -63,3 +63,12 @@ if (! function_exists('mongoTime')) {
         return new UTCDateTime($time);
     }
 }
+
+if (! function_exists('valid_json')) {
+    function valid_json($value)
+    {
+        json_decode($value);
+
+        return json_last_error() === JSON_ERROR_NONE;
+    }
+}
