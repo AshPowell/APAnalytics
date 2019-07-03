@@ -21,7 +21,7 @@ trait IsAnalytic
             return true;
         }
 
-        if (!$user) {
+        if (! $user) {
             return false;
         }
 
