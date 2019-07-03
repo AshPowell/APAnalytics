@@ -88,8 +88,9 @@ class APAnalytics
             }
         }
 
-        abort_unless($this->canViewAnalytic($model, $matchArray, auth()->user()), 403, 'You dont have permission to view these analytics');
-
+        if (! app()->runningInConsole()) {
+            abort_unless(auth()->check() && $this->canViewAnalytic($model, $matchArray, auth()->user()), 403, 'You dont have permission to view these analytics');
+        }
         if ($start) {
             $matchArray['created_at']['$gte'] = mongoTime($start);
         }
