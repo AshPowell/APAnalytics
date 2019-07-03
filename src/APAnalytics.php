@@ -88,9 +88,8 @@ class APAnalytics
             }
         }
 
-        if (! app()->runningInConsole()) {
-            abort_unless(auth()->check() && $this->canViewAnalytic($model, $matchArray, auth()->user()), 403, 'You dont have permission to view these analytics');
-        }
+        abort_unless(auth()->check() && $this->canViewAnalytic($model, $matchArray, auth()->user()), 403, 'You dont have permission to view these analytics');
+
         if ($start) {
             $matchArray['created_at']['$gte'] = mongoTime($start);
         }
@@ -225,8 +224,16 @@ class APAnalytics
      *
      * @return bool
      */
-    private function canViewAnalytic($analyticModel, $filterArray, User $user)
+    private function canViewAnalytic($analyticModel, $filterArray, User $user = null)
     {
+        if (app()->runningInConsole()) {
+            return true;
+        }
+
+        if (! $user) {
+            return false;
+        }
+
         $modelsToCheck = config('apanalytics.models_require_ownership');
 
         if (count($modelsToCheck)) {

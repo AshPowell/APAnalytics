@@ -15,8 +15,16 @@ trait IsAnalytic
         $this->guarded    = [];
     }
 
-    public function canViewCollection(User $user)
+    public function canViewCollection(User $user = null)
     {
+        if (app()->runningInConsole()) {
+            return true;
+        }
+
+        if (!$user) {
+            return false;
+        }
+
         return $user->isAnyAdmin();
     }
 }
