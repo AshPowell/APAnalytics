@@ -95,6 +95,10 @@ class Track implements ShouldQueue
 
                             event(new AnalyticTracked($collection, $basename, $data));
 
+                            if ($item->business) {
+                                event(new AnalyticTracked($collection, 'business', ['business' => ['id' => $item->business->id ?? null]]));
+                            }
+
                             $event[] = $data;
                         }
                     }
@@ -110,6 +114,10 @@ class Track implements ShouldQueue
                             ];
 
                             event(new AnalyticTracked($collection, $basename, $data));
+
+                            if ($item->business) {
+                                event(new AnalyticTracked($collection, 'business', ['business' => ['id' => $item->business->id ?? null]]));
+                            }
                         }
                     }
 
