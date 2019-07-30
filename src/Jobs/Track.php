@@ -85,10 +85,13 @@ class Track implements ShouldQueue
                                     'id'   => $item->id ?? null,
                                     'type' => $item->type ?? null,
                                 ],
-                                'business' => [
-                                    'id' => $item->business->id ?? null,
-                                ],
                             ];
+
+                            if ($item->business) {
+                                $data = array_merge($data, ['business' => [
+                                    'id' => $item->business->id ?? null
+                                ]]);
+                            }
 
                             // Add Extra Stuff
                             $data = $this->addExtraEventData($data, $userId, $params);
