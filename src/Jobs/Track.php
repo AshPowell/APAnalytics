@@ -112,13 +112,13 @@ class Track implements ShouldQueue
                             $basename = strtolower(Str::singular($collection));
                             $data     = [
                                 $basename => [
-                                    'id'   => $item->id ?? null,
+                                    'id'   => $item->id ?? $item['id'] ?? null,
                                 ],
                             ];
 
                             event(new AnalyticTracked($collection, $basename, $data));
 
-                            if ($item->business) {
+                            if (is_object($item) && $item->business) {
                                 event(new AnalyticTracked($collection, 'business', ['business' => ['id' => $item->business->id ?? null]]));
                             }
                         }
