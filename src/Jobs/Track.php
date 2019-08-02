@@ -89,7 +89,7 @@ class Track implements ShouldQueue
 
                             if ($item->business) {
                                 $data = array_merge($data, ['business' => [
-                                    'id' => $item->business->id ?? null
+                                    'id' => $item->business->id ?? null,
                                 ]]);
                             }
 
