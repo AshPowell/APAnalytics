@@ -112,7 +112,7 @@ class Track implements ShouldQueue
                             $basename = strtolower(Str::singular($collection));
                             $data     = [
                                 $basename => [
-                                    'id'   => $item->id ?? $item['id'] ?? null,
+                                    'id'   => $item->id ?? null,
                                 ],
                             ];
 
