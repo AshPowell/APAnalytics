@@ -10,7 +10,7 @@ trait IsAnalytic
     public function initializeIsAnalytic()
     {
         $this->connection = config('apanalytics.db_connection');
-        $this->collection = Str::plural(Str::before($this->getTable(), '_'));
+        $this->collection = Str::plural(Str::before($this->getTable(), '_analytic'));
         $this->dates      = ['created_at', 'updated_at'];
         $this->guarded    = [];
     }
