@@ -78,11 +78,11 @@ class Track implements ShouldQueue
                 if ($type == 'insert') {
                     if ($postEvent) {
                         foreach ($items as $item) {
-                            $basename = strtolower(class_basename($item));
-
-                            $data = [
+                            $basename   = strtolower(class_basename($item));
+                            $basenameId = "{$basename}_id";
+                            $data       = [
                                 $basename => [
-                                    'id'   => $item->id ?? null,
+                                    'id'   => $item->id ?? $item->{$basenameId} ?? null,
                                     'type' => $item->type ?? null,
                                 ],
                             ];
@@ -109,10 +109,11 @@ class Track implements ShouldQueue
                     // Basic created ie user
                     if (! $postEvent && $collection != 'visits') {
                         foreach ($items as $item) {
-                            $basename = strtolower(Str::singular($collection));
-                            $data     = [
+                            $basename   = strtolower(Str::singular($collection));
+                            $basenameId = "{$basename}_id";
+                            $data       = [
                                 $basename => [
-                                    'id'   => $item->id ?? null,
+                                    'id' => $item->{$basenameId} ?? $item->id ?? null,
                                 ],
                             ];
 

@@ -66,7 +66,7 @@ class APAnalytics
         $filters        = valid_json($filters) ? json_decode($filters) : $filters;
         $intervalFormat = '%Y-%m-%dT%H';
         $aggregate      = [];
-        $model          = $this->namespace.Str::studly(Str::singular($collection)).'Analytic';
+        $model          = $this->namespace . Str::studly(Str::singular($collection)) . 'Analytic';
 
         if (! class_exists($model)) {
             throw new InvalidArgumentException("Model {$model} does not exist.");
@@ -144,12 +144,12 @@ class APAnalytics
             $nested = Str::contains($groupBy, '.');
 
             if ($nested) {
-                $aggregate[] = ['$unwind' => '$'.Str::before($groupBy, '.')];
+                $aggregate[] = ['$unwind' => '$' . Str::before($groupBy, '.')];
             }
 
             $aggregate[] =  [
                 '$group' => [
-                    '_id'   => '$'.$groupBy,
+                    '_id'   => '$' . $groupBy,
                     'count' => [
                         '$sum' => 1,
                     ],
@@ -239,8 +239,8 @@ class APAnalytics
         if (count($modelsToCheck)) {
             foreach ($modelsToCheck as $model) {
                 $modelName  = Str::studly(Str::singular($model));
-                $modelId    = Arr::get($filterArray, strtolower($modelName).'.id');
-                $modelClass = $this->namespace.$modelName;
+                $modelId    = Arr::get($filterArray, strtolower($modelName) . '.id');
+                $modelClass = $this->namespace . $modelName;
 
                 if ($modelId) {
                     $model = $modelClass::find($modelId);
