@@ -2,13 +2,10 @@
 
 namespace AshPowell\APAnalytics;
 
-use App\User;
 use AshPowell\APAnalytics\Jobs\Track;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
-use MongoDB\Driver\Cursor;
-use MongoDB\Model\BSONDocument;
 
 class APAnalytics
 {
@@ -88,7 +85,7 @@ class APAnalytics
             }
         }
 
-        abort_unless($this->canViewAnalytic($model, $matchArray, auth()->user()), 403, 'You dont have permission to view these analytics');
+        abort_unless(auth()->user()->can('view', [(new $model), $matchArray]), 403, 'You dont have permission to view these analytics');
 
         if ($start) {
             $matchArray['created_at']['$gte'] = mongoTime($start);
@@ -178,82 +175,5 @@ class APAnalytics
         });
 
         return $data;
-    }
-
-    /**
-     * Convert the Cursor to Laravel Models.
-     *
-     * @return void
-     * @param  mixed      $data
-     * @param  null|mixed $model
-     */
-    private function toModels($data, $model = null)
-    {
-        if (! $model) {
-            $model = '\Jenssegers\Mongodb\Eloquent\Model';
-        }
-
-        if (! class_exists($model)) {
-            throw new InvalidArgumentException("Model {$model} does not exist.");
-        }
-
-        if ($data instanceof Cursor) {
-            // Convert MongoCursor results to a collection of models.
-            $data = iterator_to_array($data, false);
-
-            return $model::hydrate($data);
-        } elseif ($data instanceof BSONDocument) {
-            // Convert Mongo BSONDocument to a single object.
-            $data = $data::getArrayCopy();
-
-            return $model::newFromBuilder((array) $data);
-        } elseif (is_array($data) && array_key_exists('_id', $data)) {
-            // The result is a single object.
-            return $model::newFromBuilder((array) $data);
-        }
-
-        return $data;
-    }
-
-    /**
-     * Check specified user has permission to see these analytics.
-     *
-     * @param array $filterArray
-     * @param User  $user
-     * @param mixed $analyticModel
-     *
-     * @return bool
-     */
-    private function canViewAnalytic($analyticModel, $filterArray, User $user = null)
-    {
-        if (app()->runningInConsole()) {
-            return true;
-        }
-
-        if (! $user) {
-            return false;
-        }
-
-        $modelsToCheck = config('apanalytics.models_require_ownership');
-
-        if (count($modelsToCheck)) {
-            foreach ($modelsToCheck as $model) {
-                $modelName  = Str::studly(Str::singular($model));
-                $modelId    = Arr::get($filterArray, strtolower($modelName) . '.id');
-                $modelClass = $this->namespace . $modelName;
-
-                if ($modelId) {
-                    $model = $modelClass::find($modelId);
-
-                    if ($model && ! $model->canViewAnalytic($user)) {
-                        return false;
-                    }
-                }
-            }
-
-            return true;
-        }
-
-        return (new $analyticModel)->canViewCollection($user);
     }
 }
