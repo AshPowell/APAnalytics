@@ -180,9 +180,10 @@ class Track implements ShouldQueue
 
         // Standard stuff
         $data = array_merge($data, [
-            'user_id'    => $userId ?? auth()->id() ?? null,
-            'created_at' => mongoTime(),
+            'user_id' => $userId ?? auth()->id() ?? null,
         ]);
+
+        data_fill($data, 'created_at', mongoTime());
 
         return $data;
     }
