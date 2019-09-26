@@ -22,8 +22,8 @@
     "jenssegers/mongodb": "^3.5"
   },
   "require-dev": {
-    "orchestra/testbench": "~3.7.0",
-    "phpunit/phpunit": "^7.0"
+    "orchestra/testbench": "~4.0",
+    "phpunit/phpunit": "^8.0"
   },
   "autoload": {
     "psr-4": {
