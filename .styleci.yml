@@ -10,7 +10,6 @@ enabled:
   - is_null
 
 disabled:
-  - length_ordered_imports
   - unalign_equals
 
 finder:
