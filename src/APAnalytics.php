@@ -55,7 +55,7 @@ class APAnalytics
      * @param mixed      $interval
      * @param mixed      $groupBy
      */
-    public function show($collection, $interval = 'count', $timeframe = null, $filters = null, $groupBy = null)
+    public function show($collection, $interval = 'count', $timeframe = null, $filters = null, $groupBy = null, $distinct = null)
     {
         $start          = $timeframe ? Arr::get($timeframe, 'start') : null;
         $end            = $timeframe ? Arr::get($timeframe, 'end') : null;
@@ -99,6 +99,17 @@ class APAnalytics
 
         if ($matchArray) {
             $aggregate[] = ['$match' => $matchArray];
+        }
+
+        if ($distinct) {
+            $aggregate[] =  [
+                '$group' => [
+                    '_id'        => '$' . $distinct,
+                    'created_at' => [
+                        '$last' => '$created_at',
+                    ],
+                ],
+            ];
         }
 
         if ($interval != 'count') {
