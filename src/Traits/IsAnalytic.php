@@ -3,9 +3,9 @@
 namespace AshPowell\APAnalytics\Traits;
 
 use App\User;
+use Carbon\Carbon;
+use Carbon\CarbonPeriod;
 use Illuminate\Support\Str;
-use \Carbon\Carbon;
-use \Carbon\CarbonPeriod;
 
 trait IsAnalytic
 {
@@ -31,20 +31,20 @@ trait IsAnalytic
     }
 
     /**
-     * Returns the month on month analytic count
+     * Returns the month on month analytic count.
      *
      * @param string $period
-     * @return Array
+     * @return array
      */
     public static function getCumulativeGrowthData($period = 6)
     {
         $endDate   = now();
         $startDate = $endDate->copy()->subMonths($period);
-        $period    = CarbonPeriod::create($startDate, "1 month", $endDate);
+        $period    = CarbonPeriod::create($startDate, '1 month', $endDate);
 
         $output = [];
         foreach ($period as $date) {
-            $date  = $date->format('d-m-Y');
+            $date          = $date->format('d-m-Y');
             $output[$date] = (new static)->getCountForDate($date, 'd-m-Y');
         }
 
@@ -52,11 +52,11 @@ trait IsAnalytic
     }
 
     /**
-     * Returns the analytic count for the specified month
+     * Returns the analytic count for the specified month.
      *
-     * @param String $date
-     * @param String $format
-     * @return Int
+     * @param string $date
+     * @param string $format
+     * @return int
      */
     public static function getCountForDate($date, $format)
     {

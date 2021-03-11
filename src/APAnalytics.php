@@ -54,6 +54,7 @@ class APAnalytics
      * @param null|mixed $filters
      * @param mixed      $interval
      * @param mixed      $groupBy
+     * @param null|mixed $distinct
      */
     public function show($collection, $interval = 'count', $timeframe = null, $filters = null, $groupBy = null, $distinct = null)
     {
@@ -104,7 +105,7 @@ class APAnalytics
         if ($distinct) {
             $aggregate[] =  [
                 '$group' => [
-                    '_id'        => '$' . $distinct,
+                    '_id'        => '$'.$distinct,
                     'created_at' => [
                         '$last' => '$created_at',
                     ],
