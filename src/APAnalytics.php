@@ -152,10 +152,12 @@ class APAnalytics
         }
 
         if ($interval == 'count' && $groupBy != null) {
-            $nested = Str::contains($groupBy, '.');
+            $nested      = Str::contains($groupBy, '.');
+            $group       = $nested ? Str::before($groupBy, '.') : $groupBy;
+            $nestedGroup = $nested ? Str::after($groupBy, '.') : $groupBy;
 
             if ($nested) {
-                $aggregate[] = ['$unwind' => '$'.Str::before($groupBy, '.')];
+                $aggregate[] = ['$unwind' => '$'.$group];
             }
 
             $aggregate[] =  [
@@ -171,9 +173,9 @@ class APAnalytics
 
             $aggregate[] = [
                 '$project' => [
-                    '_id'   => 0,
-                    $nested ? Str::after($groupBy, '.') : $groupBy  => '$_id',
-                    'count' => 1,
+                    '_id'        => 0,
+                    $nestedGroup => '$_id',
+                    'count'      => 1,
                 ],
             ];
         }
