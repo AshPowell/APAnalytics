@@ -172,7 +172,7 @@ class APAnalytics
             $aggregate[] = [
                 '$project' => [
                     '_id'   => 0,
-                    Str::after($groupBy, '.')  => '$_id',
+                    $nested ? Str::after($groupBy, '.') : $groupBy  => '$_id',
                     'count' => 1,
                 ],
             ];
