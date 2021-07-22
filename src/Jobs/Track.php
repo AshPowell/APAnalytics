@@ -139,6 +139,7 @@ class Track implements ShouldQueue
                         ->update($params);
             } catch (\Exception $e) {
                 Log::error('Error Logging Event', ['error' => $e->getMessage()]);
+                report($e);
             }
         }
     }
