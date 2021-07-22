@@ -8,6 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Pagination\CursorPaginator;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Queue\InteractsWithQueue;
@@ -165,7 +166,7 @@ class Track implements ShouldQueue
             return $formattedItems;
         }
 
-        if ($items instanceof Paginator || $items instanceof LengthAwarePaginator) {
+        if ($items instanceof Paginator || $items instanceof LengthAwarePaginator || $items instanceof CursorPaginator) {
             $formattedItems = $items->items();
         }
 
