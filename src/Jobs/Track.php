@@ -162,7 +162,7 @@ class Track implements ShouldQueue
     {
         $formattedItems = $items;
 
-        if (is_array($formattedItems)) {
+        if (is_array($formattedItems) || $items instanceof Collection) {
             return $formattedItems;
         }
 
