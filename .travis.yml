@@ -8,10 +8,13 @@ notifications:
         on_failure: always
 
 php:
-  - 8.0.2
+    - 7.4
+    - 8.0.2
+    - 8.1
 
 env:
   - LARAVEL_VERSION=8.*
+  - LARAVEL_VERSION=9.*
 
 before_install:
   - echo "extension = mongodb.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
