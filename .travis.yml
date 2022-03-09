@@ -16,7 +16,7 @@ env:
   - LARAVEL_VERSION=9.*
 
 before_install:
-  - pecl install mongodb
+  - pecl install mongo-1.12.0
   - travis_retry composer self-update --stable -n
   - composer validate --no-check-all --strict
   - composer require "laravel/framework:${LARAVEL_VERSION}" --no-update -n
