@@ -8,7 +8,7 @@ notifications:
         on_failure: always
 
 php:
-  - 7.4
+  - 8.1
 
 env:
   - LARAVEL_VERSION=8.*
