@@ -21,10 +21,10 @@ class AnalyticTracked implements ShouldBroadcast
     /**
      * Create a new event instance.
      *
+     * @param  mixed  $item
+     * @param  mixed  $basename
+     * @param  mixed  $collection
      * @return void
-     * @param  mixed $item
-     * @param  mixed $basename
-     * @param  mixed $collection
      */
     public function __construct($collection, $basename, $item)
     {

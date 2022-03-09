@@ -26,11 +26,11 @@ class APAnalytics
     /**
      * Track the Analytic.
      *
+     * @param  mixed  $collection
+     * @param  mixed  $items
+     * @param  null|mixed  $userId
+     * @param  mixed  $params
      * @return void
-     * @param  mixed      $collection
-     * @param  mixed      $items
-     * @param  null|mixed $userId
-     * @param  mixed      $params
      */
     public function track($collection, $items, $userId = null, $params = [])
     {
@@ -49,12 +49,12 @@ class APAnalytics
     /**
      * Get the Analytics.
      *
-     * @param mixed      $collection
-     * @param null|mixed $timeframe
-     * @param null|mixed $filters
-     * @param mixed      $interval
-     * @param mixed      $groupBy
-     * @param null|mixed $distinct
+     * @param  mixed  $collection
+     * @param  null|mixed  $timeframe
+     * @param  null|mixed  $filters
+     * @param  mixed  $interval
+     * @param  mixed  $groupBy
+     * @param  null|mixed  $distinct
      */
     public function show($collection, $interval = 'count', $timeframe = null, $filters = null, $groupBy = null, $distinct = null)
     {
