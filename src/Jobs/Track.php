@@ -32,12 +32,12 @@ class Track implements ShouldQueue
     /**
      * Create a new event instance.
      *
+     * @param  mixed  $collection
+     * @param  mixed  $items
+     * @param  mixed  $userId
+     * @param  mixed  $params
+     * @param  mixed  $type
      * @return void
-     * @param  mixed $collection
-     * @param  mixed $items
-     * @param  mixed $userId
-     * @param  mixed $params
-     * @param  mixed $type
      */
     public function __construct($collection, $items, $userId, $params, $type = 'insert')
     {

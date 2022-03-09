@@ -14,11 +14,12 @@ if (! function_exists('analytics')) {
 if (! function_exists('trackEvent')) {
     /**
      * Access event dispatch of event tracker direct.
-     * @param mixed      $event
-     * @param mixed      $collection
-     * @param mixed      $items
-     * @param mixed      $params
-     * @param null|mixed $userId
+     *
+     * @param  mixed  $event
+     * @param  mixed  $collection
+     * @param  mixed  $items
+     * @param  mixed  $params
+     * @param  null|mixed  $userId
      */
     function trackEvent($collection, $items, $userId = null, $params = [])
     {
@@ -29,14 +30,15 @@ if (! function_exists('trackEvent')) {
 if (! function_exists('showEvents')) {
     /**
      * Access event dispatch of event tracker direct.
-     * @param mixed      $event
-     * @param mixed      $collection
-     * @param mixed      $items
-     * @param mixed      $params
-     * @param null|mixed $userId
-     * @param null|mixed $timeframe
-     * @param null|mixed $filters
-     * @param mixed $interval
+     *
+     * @param  mixed  $event
+     * @param  mixed  $collection
+     * @param  mixed  $items
+     * @param  mixed  $params
+     * @param  null|mixed  $userId
+     * @param  null|mixed  $timeframe
+     * @param  null|mixed  $filters
+     * @param  mixed  $interval
      */
     function showEvents($collection, $interval = 'count', $timeframe = null, $filters = null)
     {
@@ -54,7 +56,8 @@ if (! function_exists('is_countable')) {
 if (! function_exists('mongoTime')) {
     /**
      * Returns time in MongoDb Time.
-     * @param null|mixed $time
+     *
+     * @param  null|mixed  $time
      */
     function mongoTime($time = null)
     {

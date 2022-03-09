@@ -33,7 +33,7 @@ trait IsAnalytic
     /**
      * Returns the month on month analytic count.
      *
-     * @param string $period
+     * @param  string  $period
      * @return array
      */
     public static function getCumulativeGrowthData($period = 6)
@@ -54,8 +54,8 @@ trait IsAnalytic
     /**
      * Returns the analytic count for the specified month.
      *
-     * @param string $date
-     * @param string $format
+     * @param  string  $date
+     * @param  string  $format
      * @return int
      */
     public static function getCountForDate($date, $format)
