@@ -54,6 +54,5 @@
   <exclude-pattern>/vendor/*</exclude-pattern>
   <exclude-pattern>/node_modules/*</exclude-pattern>
   <exclude-pattern>_ide_helper.php</exclude-pattern>
-  <include-pattern>/Snizl/*</include-pattern>
   <include-pattern>/app/*</include-pattern>
 </ruleset>
