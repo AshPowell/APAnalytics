@@ -71,17 +71,29 @@ class APAnalytics
         }
 
         if ($filters) {
-            foreach ($filters as $filter) {
-                if (is_array($filter)) {
-                    $matchArray = array_merge($matchArray, $filter);
-                } else {
-                    $propertyValue = $filter->property_value;
+            if (is_array($filters)) {
+                if (count($filters) == count($filters, COUNT_RECURSIVE)) {
+                    $propertyValue = $filters['property_value'];
 
                     if (is_numeric($propertyValue)) {
                         $propertyValue = (int) $propertyValue;
                     }
 
-                    $matchArray = array_merge($matchArray, [$filter->property_name => $propertyValue]);
+                    $matchArray = array_merge($matchArray, [$filters['property_name'] => $propertyValue]);
+                } else {
+                    foreach ($filters as $filter) {
+                        if (is_array($filter)) {
+                            $matchArray = array_merge($matchArray, $filter);
+                        } else {
+                            $propertyValue = $filter->property_value;
+
+                            if (is_numeric($propertyValue)) {
+                                $propertyValue = (int) $propertyValue;
+                            }
+
+                            $matchArray = array_merge($matchArray, [$filter->property_name => $propertyValue]);
+                        }
+                    }
                 }
             }
         }
