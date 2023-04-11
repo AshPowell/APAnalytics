@@ -61,7 +61,7 @@ class APAnalytics
         $start          = $timeframe ? Arr::get($timeframe, 'start') : null;
         $end            = $timeframe ? Arr::get($timeframe, 'end') : null;
         $matchArray     = [];
-        $filters        = valid_json($filters) ? json_decode($filters) : $filters;
+        $filters        = valid_json($filters) ? (array) json_decode($filters) : $filters;
         $intervalFormat = '%Y-%m-%dT%H';
         $aggregate      = [];
         $model          = $this->namespace.Str::studly(Str::singular($collection)).'Analytic';
@@ -72,26 +72,11 @@ class APAnalytics
 
         if ($filters) {
             if (is_array($filters)) {
-                foreach ($filters as $filter) {
-                    // if (count($filters) == count($filters, COUNT_RECURSIVE)) {
-                    //     $propertyValue = $filters['property_value'];
-
-                    //     if (is_numeric($propertyValue)) {
-                    //         $propertyValue = (int) $propertyValue;
-                    //     }
-
-                    //     $matchArray = array_merge($matchArray, [$filters['property_name'] => $propertyValue]);
-                    // }
-                    if (is_array($filter)) {
-                        $matchArray = array_merge($matchArray, $filter);
-                    } else {
-                        $propertyValue = $filter->property_value;
-
-                        if (is_numeric($propertyValue)) {
-                            $propertyValue = (int) $propertyValue;
-                        }
-
-                        $matchArray = array_merge($matchArray, [$filter->property_name => $propertyValue]);
+                if (count($filters) == count($filters, COUNT_RECURSIVE)) {
+                    $matchArray = $this->matchPropertyNameToValue($matchArray, $filters);
+                } else {
+                    foreach ($filters as $filter) {
+                        $matchArray = $this->matchPropertyNameToValue($matchArray, $filter);
                     }
                 }
             }
@@ -202,5 +187,16 @@ class APAnalytics
         });
 
         return $data;
+    }
+
+    private function matchPropertyNameToValue($matchArray, $filter)
+    {
+        $propertyValue = data_get($filter, 'property_value');
+
+        if (is_numeric($propertyValue)) {
+            $propertyValue = (int) $propertyValue;
+        }
+
+        return array_merge($matchArray, [data_get($filter, 'property_name') => $propertyValue]);
     }
 }
