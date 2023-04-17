@@ -72,10 +72,14 @@ class APAnalytics
 
         if ($filters) {
             if (is_array($filters)) {
-                $filters = Arr::flatten($filters);
+                $filters = Arr::first($filters);
 
-                foreach ($filters as $filter) {
-                    $matchArray = $this->matchPropertyNameToValue($matchArray, $filter);
+                if (is_array($filters) && count($filters) > 1) {
+                    foreach ($filters as $filter) {
+                        $matchArray = $this->matchPropertyNameToValue($matchArray, $filter);
+                    }
+                } else {
+                    $matchArray = $this->matchPropertyNameToValue($matchArray, $filters);
                 }
             }
         }
@@ -189,12 +193,12 @@ class APAnalytics
 
     private function matchPropertyNameToValue($matchArray, $filter)
     {
-        $propertyValue = data_get($filter, 'property_value');
+        $propertyValue = data_get($filter, 'property_value', reset($filter));
 
         if (is_numeric($propertyValue)) {
             $propertyValue = (int) $propertyValue;
         }
 
-        return array_merge($matchArray, [data_get($filter, 'property_name') => $propertyValue]);
+        return array_merge($matchArray, [data_get($filter, 'property_name', key($filter)) => $propertyValue]);
     }
 }
