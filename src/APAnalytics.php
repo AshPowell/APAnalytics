@@ -72,12 +72,10 @@ class APAnalytics
 
         if ($filters) {
             if (is_array($filters)) {
-                if (count($filters) == count($filters, COUNT_RECURSIVE)) {
-                    $matchArray = $this->matchPropertyNameToValue($matchArray, $filters);
-                } else {
-                    foreach ($filters as $filter) {
-                        $matchArray = $this->matchPropertyNameToValue($matchArray, $filter);
-                    }
+                $filters = Arr::flatten($filters);
+
+                foreach ($filters as $filter) {
+                    $matchArray = $this->matchPropertyNameToValue($matchArray, $filter);
                 }
             }
         }
