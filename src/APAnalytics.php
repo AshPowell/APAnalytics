@@ -85,7 +85,7 @@ class APAnalytics
         }
 
         if (! app()->runningInConsole()) {
-            abort_unless(auth()->check() && auth()->user()->can('view', [(new $model), $matchArray]), 403, 'You dont have permission to view these analytics');
+            abort_unless(auth()->check() && auth()->user()->can('view', [new $model, $matchArray]), 403, 'You dont have permission to view these analytics');
         }
 
         if ($start) {
