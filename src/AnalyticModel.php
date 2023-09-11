@@ -3,7 +3,7 @@
 namespace AshPowell\APAnalytics;
 
 use AshPowell\APAnalytics\Traits\IsAnalytic;
-use Jenssegers\Mongodb\Eloquent\Model;
+use MongoDB\Laravel\Eloquent\Model;
 
 /**
  * Class AnalyticModel.
