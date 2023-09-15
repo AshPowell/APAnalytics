@@ -88,9 +88,9 @@ class Track implements ShouldQueue
                                 ],
                             ];
 
-                            if ($item->business) {
+                            if ($item->business_id) {
                                 $data = array_merge($data, ['business' => [
-                                    'id' => $item->business->id ?? null,
+                                    'id' => $item->business_id ?? null,
                                 ]]);
                             }
 
@@ -99,8 +99,8 @@ class Track implements ShouldQueue
 
                             event(new AnalyticTracked($collection, $basename, $data));
 
-                            if ($item->business) {
-                                event(new AnalyticTracked($collection, 'business', ['business' => ['id' => $item->business->id ?? null]]));
+                            if ($item->business_id) {
+                                event(new AnalyticTracked($collection, 'business', ['business' => ['id' => $item->business_id ?? null]]));
                             }
 
                             $event[] = $data;
