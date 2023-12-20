@@ -14,12 +14,12 @@
   ],
   "require": {
     "php": "^7.4|^8.0.2|^8.2",
-    "illuminate/container": "^8.0|^9.0",
-    "illuminate/database": "^8.0|^9.0",
-    "illuminate/events": "^8.0|^9.0",
-    "illuminate/support": "^8.0|^9.0",
+    "illuminate/container": "^8.0|^9.0|^10.0",
+    "illuminate/database": "^8.0|^9.0|^10.0",
+    "illuminate/events": "^8.0|^9.0|^10.0",
+    "illuminate/support": "^8.0|^9.0|^10.0",
     "jenssegers/mongodb": "^3.8|^3.9",
-    "laravel/framework": "^8.4|^9.0",
+    "laravel/framework": "^8.4|^9.0|^10.0",
     "mongodb/mongodb": "^1.8|^1.11|^1.16"
   },
   "require-dev": {
