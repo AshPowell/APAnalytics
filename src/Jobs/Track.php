@@ -99,9 +99,10 @@ class Track implements ShouldQueue
 
                             event(new AnalyticTracked($collection, $basename, $data));
 
-                            if ($item->business_id) {
-                                event(new AnalyticTracked($collection, 'business', ['business' => ['id' => $item->business_id ?? null]]));
-                            }
+                            // TODO: Do we need double?
+                            // if ($item->business_id) {
+                            //     event(new AnalyticTracked($collection, 'business', ['business' => ['id' => $item->business_id ?? null]]));
+                            // }
 
                             $event[] = $data;
                         }
