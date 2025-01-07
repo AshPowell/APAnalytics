@@ -153,6 +153,14 @@ class Track implements ShouldQueue
         return $this->addExtraEventData($items, $userId, $params);
     }
 
+    /**
+     * Core stuff to add
+     *
+     * @param mixed $data
+     * @param mixed $userId
+     * @param mixed $params
+     * @return mixed
+     */
     private function addExtraEventData($data, $userId, $params)
     {
         // Merge our extra parameters
