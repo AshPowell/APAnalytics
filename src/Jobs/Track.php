@@ -8,12 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Pagination\CursorPaginator;
-use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Pagination\Paginator;
 use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Log;
@@ -71,7 +66,6 @@ class Track implements ShouldQueue
 
         if ($valid) {
             $collection = Str::plural($collection);
-            $items      = $this->formatItems($items);
             $postEvent  = in_array($collection, config('apanalytics.format_collections'));
             $event      = $this->prepEventData($postEvent, $items, $userId, $params, $collection);
 
@@ -157,21 +151,6 @@ class Track implements ShouldQueue
         }
 
         return $this->addExtraEventData($items, $userId, $params);
-    }
-
-    private function formatItems($items)
-    {
-        $formattedItems = $items;
-
-        if (is_array($formattedItems) || $items instanceof Collection) {
-            return $formattedItems;
-        }
-
-        if ($items instanceof Paginator || $items instanceof LengthAwarePaginator || $items instanceof CursorPaginator) {
-            $formattedItems = $items->items();
-        }
-
-        return Arr::wrap($formattedItems);
     }
 
     private function addExtraEventData($data, $userId, $params)

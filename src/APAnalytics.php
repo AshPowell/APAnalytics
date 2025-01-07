@@ -3,7 +3,11 @@
 namespace AshPowell\APAnalytics;
 
 use AshPowell\APAnalytics\Jobs\Track;
+use Illuminate\Pagination\CursorPaginator;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
 
@@ -34,6 +38,8 @@ class APAnalytics
      */
     public function track($collection, $items, $userId = null, $params = [])
     {
+        $items = $this->formatItems($items);
+
         try {
             Track::dispatch($collection, $items, $userId, $params);
 
@@ -242,5 +248,20 @@ class APAnalytics
         }
 
         return array_merge($matchArray, [data_get($filter, 'property_name', key($filter)) => $propertyValue]);
+    }
+
+    private function formatItems($items)
+    {
+        $formattedItems = $items;
+
+        if (is_array($formattedItems) || $items instanceof Collection) {
+            return $formattedItems;
+        }
+
+        if ($items instanceof Paginator || $items instanceof LengthAwarePaginator || $items instanceof CursorPaginator) {
+            $formattedItems = $items->items();
+        }
+
+        return Arr::wrap($formattedItems);
     }
 }
