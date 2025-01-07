@@ -250,6 +250,11 @@ class APAnalytics
         return array_merge($matchArray, [data_get($filter, 'property_name', key($filter)) => $propertyValue]);
     }
 
+    /**
+     * Format the items to be tracked.
+     * @param mixed $items
+     * @return mixed
+     */
     private function formatItems($items)
     {
         $formattedItems = $items;
