@@ -154,7 +154,7 @@ class Track implements ShouldQueue
     }
 
     /**
-     * Core stuff to add
+     * Core stuff to add to the data.
      *
      * @param mixed $data
      * @param mixed $userId
