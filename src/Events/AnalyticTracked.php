@@ -18,6 +18,8 @@ class AnalyticTracked implements ShouldBroadcast
     public $item;
     public $itemId;
 
+    public $broadcastQueue = 'analytics';
+
     /**
      * Create a new event instance.
      *
@@ -28,8 +30,6 @@ class AnalyticTracked implements ShouldBroadcast
      */
     public function __construct($collection, $basename, $item)
     {
-        $this->queue = 'analytics';
-
         $this->collection = $collection;
         $this->basename   = $basename;
         $this->item       = $item;

@@ -3,8 +3,9 @@
 namespace AshPowell\APAnalytics\Listeners;
 
 use AshPowell\APAnalytics\Events\AnalyticTracked;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class AnalyticTrackedListener
+class AnalyticTrackedListener implements ShouldQueue
 {
     /**
      * The name of the queue the job should be sent to.

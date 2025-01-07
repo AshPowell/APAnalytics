@@ -122,7 +122,7 @@ class Track implements ShouldQueue
                     }
 
                     return DB::connection($connection)
-                        ->collection($collection)
+                        ->table($collection)
                         ->insert($event);
                 }
 
@@ -130,7 +130,7 @@ class Track implements ShouldQueue
                 $basename = strtolower(Str::singular($collection));
 
                 return DB::connection($connection)
-                        ->collection($collection)
+                        ->table($collection)
                         ->where("{$basename}_id", $items)
                         ->update($params);
             } catch (\Exception $e) {
