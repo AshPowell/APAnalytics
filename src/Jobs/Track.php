@@ -150,7 +150,13 @@ class Track implements ShouldQueue
             return $items;
         }
 
-        return $this->addExtraEventData($items, $userId, $params);
+        try {
+            return $this->addExtraEventData($items, $userId, $params);
+        } catch (\Exception $e) {
+            Log::error('Error Adding Extra Event Data', ['error' => $e->getMessage(), 'postEvent' => $postEvent, 'items' => $items, 'userId' => $userId, 'params' => $params]);
+            report($e);
+            return $items;
+        }
     }
 
     /**
