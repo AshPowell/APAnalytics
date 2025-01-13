@@ -260,13 +260,25 @@ class APAnalytics
         $formattedItems = $items;
 
         if (is_array($formattedItems) || $items instanceof Collection) {
-            return $formattedItems;
+            return $this->filterAttributes($formattedItems);
         }
 
         if ($items instanceof Paginator || $items instanceof LengthAwarePaginator || $items instanceof CursorPaginator) {
-            $formattedItems = $items->items();
+            return $this->filterAttributes($items->items());
         }
 
         return Arr::wrap($formattedItems);
+    }
+
+    private function filterAttributes($items)
+    {
+        return collect($items)->map(function ($item) {
+                $attributesToBeLogged = $item->attributesToBeLogged();
+
+                // Replace the model's attributes while keeping it a model
+                return $item->setRawAttributes(
+                    collect($item->getAttributes())->only($attributesToBeLogged)->toArray()
+                );
+            });
     }
 }
