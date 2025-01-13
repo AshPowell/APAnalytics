@@ -3,6 +3,7 @@
 namespace AshPowell\APAnalytics;
 
 use AshPowell\APAnalytics\Jobs\Track;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\CursorPaginator;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
@@ -272,13 +273,19 @@ class APAnalytics
 
     private function filterAttributes($items)
     {
-        return collect($items)->map(function ($item) {
+       return collect($items)->map(function ($item) {
+            if ($item instanceof Model) {
                 $attributesToBeLogged = $item->attributesToBeLogged();
 
                 // Replace the model's attributes while keeping it a model
                 return $item->setRawAttributes(
                     collect($item->getAttributes())->only($attributesToBeLogged)->toArray()
                 );
-            });
+            }
+
+            // Return the item as-is if it's not a model
+            return $item;
+
+        });
     }
 }
