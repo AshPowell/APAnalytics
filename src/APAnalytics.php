@@ -277,10 +277,10 @@ class APAnalytics
             if ($item instanceof Model) {
                 $attributesToBeLogged = $item->attributesToBeLogged();
 
-                // Return a new instance with filtered attributes
-                return new $item([
-                    'attributes' => collect($item->getAttributes())->only($attributesToBeLogged)->toArray()
-                ]);
+                // Return a new instance with filtered attributes directly
+                return new $item(
+                    collect($item->getAttributes())->only($attributesToBeLogged)->toArray()
+                );
             }
 
             // Return non-model items as-is
