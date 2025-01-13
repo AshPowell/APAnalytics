@@ -258,34 +258,33 @@ class APAnalytics
      */
     private function formatItems($items)
     {
-        $formattedItems = $items;
-
-        if (is_array($formattedItems) || $items instanceof Collection) {
-            return $this->filterAttributes($formattedItems);
-        }
-
         if ($items instanceof Paginator || $items instanceof LengthAwarePaginator || $items instanceof CursorPaginator) {
-            return $this->filterAttributes($items->items());
+            $items = $items->items(); // Convert paginated items to an array
         }
 
-        return Arr::wrap($formattedItems);
+        // Handle collections and arrays
+        if (is_array($items) || $items instanceof Collection) {
+            return $this->filterAttributes($items);
+        }
+
+        // For a single item, wrap it in an array
+        return Arr::wrap($items);
     }
 
     private function filterAttributes($items)
     {
-       return collect($items)->map(function ($item) {
+        return collect($items)->map(function ($item) {
             if ($item instanceof Model) {
                 $attributesToBeLogged = $item->attributesToBeLogged();
 
-                // Replace the model's attributes while keeping it a model
-                return $item->setRawAttributes(
-                    collect($item->getAttributes())->only($attributesToBeLogged)->toArray()
-                );
+                // Return a new instance with filtered attributes
+                return new $item([
+                    'attributes' => collect($item->getAttributes())->only($attributesToBeLogged)->toArray()
+                ]);
             }
 
-            // Return the item as-is if it's not a model
+            // Return non-model items as-is
             return $item;
-
         });
     }
 }
