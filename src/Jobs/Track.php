@@ -169,9 +169,11 @@ class Track implements ShouldQueue
      */
     private function addExtraEventData($data, $userId, $params)
     {
-        if (! is_array($data)) {
-            logger()->info('Data is not an array', ['data' => $data, 'userId' => $userId, 'params' => $params]);
+        // If data is just an integer its probably a model ID updating.
+        if (is_int($data)) {
+            return $data;
         }
+
         // Merge our extra parameters
         if (is_array($params) && count($params)) {
             $data = array_merge($data, $params);
