@@ -134,7 +134,7 @@ class Track implements ShouldQueue
                         ->where("{$basename}_id", $items)
                         ->update($params);
             } catch (\Exception $e) {
-                Log::error('Error Logging Event', ['error' => $e->getMessage()]);
+                Log::error('Error Logging Event', ['error' => $e->getMessage(), 'collection' => $collection, 'items' => $items, 'userId' => $userId, 'params' => $params]);
                 report($e);
             }
         }
@@ -169,6 +169,9 @@ class Track implements ShouldQueue
      */
     private function addExtraEventData($data, $userId, $params)
     {
+        if (! is_array($data)) {
+            logger()->info('Data is not an array', ['data' => $data, 'userId' => $userId, 'params' => $params]);
+        }
         // Merge our extra parameters
         if (is_array($params) && count($params)) {
             $data = array_merge($data, $params);
