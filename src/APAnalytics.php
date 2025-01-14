@@ -271,20 +271,22 @@ class APAnalytics
         return Arr::wrap($items);
     }
 
+    // Needs work - not ready yet.
     private function filterAttributes($items)
     {
-        return collect($items)->map(function ($item) {
-            if ($item instanceof Model) {
-                $attributesToBeLogged = $item->attributesToBeLogged();
+        return $items;
+        // return collect($items)->map(function ($item) {
+        //     if ($item instanceof Model) {
+        //         $attributesToBeLogged = $item->attributesToBeLogged();
 
-                // Return a new instance with filtered attributes directly
-                return new $item(
-                    collect($item->getAttributes())->only($attributesToBeLogged)->toArray()
-                );
-            }
+        //         // Return a new instance with filtered attributes directly
+        //         return new $item(
+        //             collect($item->getAttributes())->only($attributesToBeLogged)->toArray()
+        //         );
+        //     }
 
-            // Return non-model items as-is
-            return $item;
-        });
+        //     // Return non-model items as-is
+        //     return $item;
+        // });
     }
 }
