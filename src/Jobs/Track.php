@@ -12,7 +12,9 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Log;
+use Illuminate\Queue\Attributes\WithoutRelations;
 
+#[WithoutRelations]
 class Track implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable;
