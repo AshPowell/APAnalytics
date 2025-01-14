@@ -154,7 +154,7 @@ class Track implements ShouldQueue
 
         try {
             // Unravel the data
-            $data = collect(data_get($items, 'items', []));
+            $data = collect(data_get($items, 'items', $items));
 
             $formattedItem = ($data->count() === 1) ? $data->first() : $data->toArray();
             return $this->addExtraEventData($formattedItem, $userId, $params);
