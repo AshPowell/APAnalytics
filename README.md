@@ -49,7 +49,7 @@ php artisan vendor:publish --provider="AshPowell\APAnalytics\APAnalyticsServiceP
 ## Usage
 
 ### Extend Analytic Models our Model instead of Elequent
-#### This will make sure the correct db connection and collection are used
+#### This will make sure the correct db connection and table are used
 ```php
 use AshPowell\APAnalytics\AnalyticModel as Model;
 
@@ -58,9 +58,9 @@ class ViewAnalytic extends Model;
 
 ### To Log events simply use the built in helper as follows:
 ```php
-trackEvent('collection', $items, $userId = null, $params = []),
+trackEvent('table', $items, $userId = null, $params = []),
 ```
-- Collection will get plauralised
+- Table will get plauralised
 - Items can be models, collections, or custom (see config for model formatting)
 - UserId is who performed the action, nullable, default is logged user
 - Params is an array of extra config, nullable also

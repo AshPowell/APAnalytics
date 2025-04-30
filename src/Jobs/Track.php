@@ -11,7 +11,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
-use Log;
+use Illuminate\Support\Log;
 use Illuminate\Queue\Attributes\WithoutRelations;
 
 #[WithoutRelations]
@@ -20,7 +20,7 @@ class Track implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable;
 
     public $mongodb_connection;
-    public $collection;
+    public $table;
     public $items;
     public $userId;
     public $params;
@@ -29,19 +29,19 @@ class Track implements ShouldQueue
     /**
      * Create a new event instance.
      *
-     * @param  mixed  $collection
+     * @param  mixed  $table
      * @param  mixed  $items
      * @param  mixed  $userId
      * @param  mixed  $params
      * @param  mixed  $type
      * @return void
      */
-    public function __construct($collection, $items, $userId, $params, $type = 'insert')
+    public function __construct($table, $items, $userId, $params, $type = 'insert')
     {
         $this->queue = 'analytics';
 
         $this->mongodb_connection = config('apanalytics.db_connection', 'mongodb');
-        $this->collection         = $collection;
+        $this->table              = $table;
         $this->items              = $items;
         $this->userId             = $userId;
         $this->params             = $params;
@@ -51,7 +51,7 @@ class Track implements ShouldQueue
     public function handle()
     {
         $connection = $this->mongodb_connection;
-        $collection = $this->collection;
+        $table      = $this->table;
         $items      = $this->items;
         $userId     = $this->userId;
         $params     = $this->params;
@@ -67,9 +67,9 @@ class Track implements ShouldQueue
         }
 
         if ($valid) {
-            $collection = Str::plural($collection);
-            $postEvent  = in_array($collection, config('apanalytics.format_collections'));
-            $event      = $this->prepEventData($postEvent, $items, $userId, $params, $collection);
+            $table     = Str::plural($table);
+            $postEvent = in_array($table, config('apanalytics.format_collections'));
+            $event     = $this->prepEventData($postEvent, $items, $userId, $params, $table);
 
             try {
                 if ($type == 'insert') {
@@ -93,11 +93,11 @@ class Track implements ShouldQueue
                             // Add Extra Stuff
                             $data = $this->addExtraEventData($data, $userId, $params);
 
-                            event(new AnalyticTracked($collection, $basename, $data));
+                            event(new AnalyticTracked($table, $basename, $data));
 
                             // TODO: Do we need double?
                             // if ($item->business_id) {
-                            //     event(new AnalyticTracked($collection, 'business', ['business' => ['id' => $item->business_id ?? null]]));
+                            //     event(new AnalyticTracked($table, 'business', ['business' => ['id' => $item->business_id ?? null]]));
                             // }
 
                             $event[] = $data;
@@ -105,9 +105,9 @@ class Track implements ShouldQueue
                     }
 
                     // Basic created ie user
-                    if (! $postEvent && $collection != 'visits') {
+                    if (! $postEvent && $table != 'visits') {
                         foreach ($items as $item) {
-                            $basename   = strtolower(Str::singular($collection));
+                            $basename   = strtolower(Str::singular($table));
                             $basenameId = "{$basename}_id";
                             $data       = [
                                 $basename => [
@@ -115,40 +115,40 @@ class Track implements ShouldQueue
                                 ],
                             ];
 
-                            event(new AnalyticTracked($collection, $basename, $data));
+                            event(new AnalyticTracked($table, $basename, $data));
 
                             // if (is_object($item) && $item->business) {
-                            //     event(new AnalyticTracked($collection, 'business', ['business' => ['id' => $item->business->id ?? null]]));
+                            //     event(new AnalyticTracked($table, 'business', ['business' => ['id' => $item->business->id ?? null]]));
                             // }
                         }
                     }
 
                     return DB::connection($connection)
-                        ->table($collection)
+                        ->table($table)
                         ->insert($event);
                 }
 
                 // Type is update
-                $basename = strtolower(Str::singular($collection));
+                $basename = strtolower(Str::singular($table));
 
                 return DB::connection($connection)
-                        ->table($collection)
+                        ->table($table)
                         ->where("{$basename}_id", $items)
                         ->update($params);
             } catch (\Exception $e) {
-                Log::error('Error Logging Event', ['error' => $e->getMessage(), 'collection' => $collection, 'items' => $items, 'userId' => $userId, 'params' => $params]);
+                Log::error('Error Logging Event', ['error' => $e->getMessage(), 'table' => $table, 'items' => $items, 'userId' => $userId, 'params' => $params]);
                 report($e);
             }
         }
     }
 
-    private function prepEventData($postEvent, $items, $userId, $params, $collection)
+    private function prepEventData($postEvent, $items, $userId, $params, $table)
     {
         if ($postEvent) {
             return [];
         }
 
-        if (is_array($items) && $collection != 'visits') {
+        if (is_array($items) && $table != 'visits') {
             return $items;
         }
 

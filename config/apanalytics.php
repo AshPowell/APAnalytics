@@ -6,7 +6,7 @@ return [
     'namespace' => env('APANALYTICS_NAMESPACE'),
 
     /*
-     * Collections that should be formatted using base class
+     * Tables that should be formatted using base class
      */
     'format_collections' => [
         'views',

@@ -16,14 +16,14 @@ if (! function_exists('trackEvent')) {
      * Access event dispatch of event tracker direct.
      *
      * @param  mixed  $event
-     * @param  mixed  $collection
+     * @param  mixed  $table
      * @param  mixed  $items
      * @param  mixed  $params
      * @param  null|mixed  $userId
      */
-    function trackEvent($collection, $items, $userId = null, $params = [])
+    function trackEvent($table, $items, $userId = null, $params = [])
     {
-        return analytics()->track($collection, $items, $userId, $params);
+        return analytics()->track($table, $items, $userId, $params);
     }
 }
 
@@ -32,7 +32,7 @@ if (! function_exists('showEvents')) {
      * Access event dispatch of event tracker direct.
      *
      * @param  mixed  $event
-     * @param  mixed  $collection
+     * @param  mixed  $table
      * @param  mixed  $items
      * @param  mixed  $params
      * @param  null|mixed  $userId
@@ -40,9 +40,9 @@ if (! function_exists('showEvents')) {
      * @param  null|mixed  $filters
      * @param  mixed  $interval
      */
-    function showEvents($collection, $interval = 'count', $timeframe = null, $filters = null)
+    function showEvents($table, $interval = 'count', $timeframe = null, $filters = null)
     {
-        return analytics()->show($collection, $interval, $timeframe, $filters);
+        return analytics()->show($table, $interval, $timeframe, $filters);
     }
 }
 

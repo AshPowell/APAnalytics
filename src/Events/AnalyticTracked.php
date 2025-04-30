@@ -13,7 +13,7 @@ class AnalyticTracked implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $collection;
+    public $table;
     public $basename;
     public $item;
     public $itemId;
@@ -25,12 +25,12 @@ class AnalyticTracked implements ShouldBroadcast
      *
      * @param  mixed  $item
      * @param  mixed  $basename
-     * @param  mixed  $collection
+     * @param  mixed  $table
      * @return void
      */
-    public function __construct($collection, $basename, $item)
+    public function __construct($table, $basename, $item)
     {
-        $this->collection = $collection;
+        $this->table      = $table;
         $this->basename   = $basename;
         $this->item       = $item;
         $this->itemId     = Arr::get($this->item, "{$this->basename}.id");
@@ -43,13 +43,13 @@ class AnalyticTracked implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        $postEvent  = in_array($this->collection, config('apanalytics.format_collections'));
+        $postEvent  = in_array($this->table, config('apanalytics.format_collections'));
 
         if ($postEvent) {
-            return new PresenceChannel("analytics.{$this->collection}.{$this->basename}.{$this->itemId}");
+            return new PresenceChannel("analytics.{$this->table}.{$this->basename}.{$this->itemId}");
         }
 
-        return new PresenceChannel("analytics.{$this->collection}.{$this->basename}.all");
+        return new PresenceChannel("analytics.{$this->table}.{$this->basename}.all");
     }
 
     /**
@@ -62,7 +62,7 @@ class AnalyticTracked implements ShouldBroadcast
         $created_at = Arr::get($this->item, 'created_at') ?? mongoTime();
 
         return [
-            'collection' => $this->collection,
+            'table'      => $this->table,
             'itemType'   => $this->basename,
             'itemId'     => $this->itemId,
             'created_at' => $created_at->toDateTime()->format('c'),

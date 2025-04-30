@@ -31,18 +31,18 @@ class APAnalytics
     /**
      * Track the Analytic.
      *
-     * @param  mixed  $collection
+     * @param  mixed  $table
      * @param  mixed  $items
      * @param  null|mixed  $userId
      * @param  mixed  $params
      * @return void
      */
-    public function track($collection, $items, $userId = null, $params = [])
+    public function track($table, $items, $userId = null, $params = [])
     {
         $items = $this->formatItems($items);
 
         try {
-            Track::dispatch($collection, $items, $userId, $params);
+            Track::dispatch($table, $items, $userId, $params);
 
             return true;
         } catch (\Exception $e) {
@@ -60,10 +60,10 @@ class APAnalytics
         }
     }
 
-    public function update($collection, $item, $params)
+    public function update($table, $item, $params)
     {
         try {
-            Track::dispatch($collection, $item, null, $params, 'update');
+            Track::dispatch($table, $item, null, $params, 'update');
 
             return true;
         } catch (\Exception $e) {
@@ -84,14 +84,14 @@ class APAnalytics
     /**
      * Get the Analytics.
      *
-     * @param  mixed  $collection
+     * @param  mixed  $table
      * @param  null|mixed  $timeframe
      * @param  null|mixed  $filters
      * @param  mixed  $interval
      * @param  mixed  $groupBy
      * @param  null|mixed  $distinct
      */
-    public function show($collection, $interval = 'count', $timeframe = null, $filters = null, $groupBy = null, $distinct = null)
+    public function show($table, $interval = 'count', $timeframe = null, $filters = null, $groupBy = null, $distinct = null)
     {
         try {
             $start          = $timeframe ? Arr::get($timeframe, 'start') : null;
@@ -100,7 +100,7 @@ class APAnalytics
             $filters        = valid_json($filters) ? (array) json_decode($filters) : $filters;
             $intervalFormat = '%Y-%m-%dT%H';
             $aggregate      = [];
-            $model          = $this->namespace.Str::studly(Str::singular($collection)).'Analytic';
+            $model          = $this->namespace.Str::studly(Str::singular($table)).'Analytic';
 
             if (! class_exists($model)) {
                 throw new InvalidArgumentException("Model {$model} does not exist.");
@@ -214,13 +214,13 @@ class APAnalytics
                 ];
             }
 
-            $data = $model::raw(function ($collection) use ($matchArray, $interval, $aggregate, $groupBy) {
+            $data = $model::raw(function ($table) use ($matchArray, $interval, $aggregate, $groupBy) {
                 if ($interval == 'count' && ! $groupBy) {
-                    return $collection->count($matchArray);
+                    return $table->count($matchArray);
                 }
 
                 if ($aggregate) {
-                    return $collection->aggregate($aggregate, ['allowDiskUse' => true]);
+                    return $table->aggregate($aggregate, ['allowDiskUse' => true]);
                 }
             });
 
