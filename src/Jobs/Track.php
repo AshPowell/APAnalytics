@@ -11,7 +11,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
-use Illuminate\Support\Log;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Queue\Attributes\WithoutRelations;
 
 #[WithoutRelations]
